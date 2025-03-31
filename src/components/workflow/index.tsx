@@ -9,16 +9,19 @@ import {
   Background,
   useNodesState,
   useEdgesState,
+  useReactFlow,
   addEdge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import Loading from '@/components/base/loading';
 import './style.css';
 import Operator from './operator';
 import { WorkflowContextProvider } from './context';
+import { useEventEmitterContextContext } from './context/event-emitter';
 import { useWorkflowInit } from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
-import { CUSTOM_EDGE, CUSTOM_NODE } from './constants';
+import { CUSTOM_EDGE, CUSTOM_NODE, WORKFLOW_DATA_UPDATE } from './constants';
 import CustomNode from './nodes';
 import CustomEdge from './custom-edge';
 import { initialEdges, initialNodes } from './utils';
@@ -39,34 +42,8 @@ const edgeTypes = {
 
 const Workflow: FC<WorkflowProps> = memo(
   ({ nodes: originalNodes, edges: originalEdges }) => {
-    const [nodes, setNodes] = useNodesState([
-      {
-        id: '1742951629752',
-        type: 'custom',
-        data: {
-          type: 'start',
-          title: '开始',
-          desc: '',
-          variables: [],
-          selected: true,
-          _connectedSourceHandleIds: [],
-          _connectedTargetHandleIds: [],
-        },
-        position: {
-          x: 30,
-          y: 251,
-        },
-        targetPosition: 'left',
-        sourcePosition: 'right',
-        positionAbsolute: {
-          x: 30,
-          y: 251,
-        },
-        width: 244,
-        height: 54,
-        selected: true,
-      },
-    ]);
+    const reactflow = useReactFlow();
+    const [nodes, setNodes] = useNodesState(originalNodes);
     const [edges, setEdges] = useEdgesState(originalEdges);
 
     useEffect(() => {
@@ -77,8 +54,26 @@ const Workflow: FC<WorkflowProps> = memo(
       };
     }, []);
 
-    console.log(originalNodes);
-    console.log(nodes);
+    const { eventEmitter } = useEventEmitterContextContext();
+
+    eventEmitter?.useSubscription((v: any) => {
+      if (v.type === WORKFLOW_DATA_UPDATE) {
+        setNodes(v.payload.nodes);
+        setEdges(v.payload.edges);
+
+        if (v.payload.viewport) reactflow.setViewport(v.payload.viewport);
+
+        // if (v.payload.features && featuresStore) {
+        //   const { setFeatures } = featuresStore.getState();
+
+        //   setFeatures(v.payload.features);
+        // }
+
+        // if (v.payload.hash) setSyncWorkflowDraftHash(v.payload.hash);
+
+        // setTimeout(() => setControlPromptEditorRerenderKey(Date.now()));
+      }
+    });
 
     const onConnect = useCallback(
       (params: any) => setEdges((eds) => addEdge(params, eds)),
@@ -131,7 +126,7 @@ const Workflow: FC<WorkflowProps> = memo(
 Workflow.displayName = 'Workflow';
 
 const WorkflowWrap = memo(() => {
-  const { data } = useWorkflowInit();
+  const { data, isLoading = false } = useWorkflowInit();
 
   const nodesData = useMemo(() => {
     if (data) return initialNodes(data.graph.nodes, data.graph.edges);
@@ -143,6 +138,14 @@ const WorkflowWrap = memo(() => {
 
     return [];
   }, [data]);
+
+  if (!data || isLoading) {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <ReactFlowProvider>

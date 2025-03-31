@@ -54,38 +54,41 @@ export const useWorkflowInit = () => {
   }, [appDetail.id, workflowStore]); */
 
   const handleGetInitialWorkflowData = useCallback(async () => {
-    setData({
-      graph: {
-        nodes: [
-          {
-            id: '1742951629752',
-            type: 'custom',
-            data: {
-              type: 'start',
-              title: '开始',
-              desc: '',
-              variables: [],
-              selected: true,
-            },
-            position: {
-              x: 30,
-              y: 251,
-            },
-            targetPosition: 'left',
-            sourcePosition: 'right',
-            positionAbsolute: {
-              x: 30,
-              y: 251,
-            },
-            width: 244,
-            height: 54,
-            selected: true,
-          },
-        ],
-        edges: [],
-      },
-    });
     try {
+      setTimeout(() => {
+        setData({
+          graph: {
+            nodes: [
+              {
+                id: '1742951629752',
+                type: 'custom',
+                data: {
+                  type: 'start',
+                  title: '开始',
+                  desc: '',
+                  variables: [],
+                  selected: true,
+                },
+                position: {
+                  x: 30,
+                  y: 251,
+                },
+                targetPosition: 'left',
+                sourcePosition: 'right',
+                positionAbsolute: {
+                  x: 30,
+                  y: 251,
+                },
+                width: 244,
+                height: 54,
+                selected: true,
+              },
+            ],
+            edges: [],
+          },
+        });
+        setIsLoading(false);
+      }, 3000);
       /** @name 获取工作流保存的信息 */
       /* const res = await fetchWorkflowDraft(
         `/apps/${appDetail.id}/workflows/draft`,

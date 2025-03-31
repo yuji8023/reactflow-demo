@@ -23,6 +23,7 @@ export const Y_OFFSET = 39;
 export const MAX_TREE_DEPTH = 50;
 export const START_INITIAL_POSITION = { x: 80, y: 282 };
 
+/** @name 更新事件名称 */
 export const WORKFLOW_DATA_UPDATE = 'WORKFLOW_DATA_UPDATE';
 
 /** @name 默认节点类型 */
