@@ -7,6 +7,16 @@ import type {
   HelpLineHorizontalPosition,
   HelpLineVerticalPosition,
 } from './help-line/types';
+import type {
+  // ConversationVariable,
+  // Edge,
+  // EnvironmentVariable,
+  // HistoryWorkflowData,
+  Node,
+  // RunFile,
+  // ToolWithProvider,
+  // WorkflowRunningData,
+} from './types';
 
 type Shape = {
   controlMode: 'pointer' | 'hand';
@@ -22,6 +32,19 @@ type Shape = {
   showTips: string;
   setShowTips: (showTips: string) => void;
   debouncedSyncWorkflowDraft: (fn: () => void) => void;
+  candidateNode?: Node;
+  setCandidateNode: (candidateNode?: Node) => void;
+  panelMenu?: {
+    top: number;
+    left: number;
+  };
+  setPanelMenu: (panelMenu: Shape['panelMenu']) => void;
+  nodeMenu?: {
+    top: number;
+    left: number;
+    nodeId: string;
+  };
+  setNodeMenu: (nodeMenu: Shape['nodeMenu']) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -40,6 +63,12 @@ export const createWorkflowStore = () => {
     debouncedSyncWorkflowDraft: debounce((syncWorkflowDraft) => {
       syncWorkflowDraft();
     }, 5000),
+    candidateNode: undefined,
+    setCandidateNode: (candidateNode) => set(() => ({ candidateNode })),
+    panelMenu: undefined,
+    setPanelMenu: (panelMenu) => set(() => ({ panelMenu })),
+    nodeMenu: undefined,
+    setNodeMenu: (nodeMenu) => set(() => ({ nodeMenu })),
   }));
 };
 

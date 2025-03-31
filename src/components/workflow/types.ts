@@ -254,3 +254,16 @@ export type Variable = {
   required?: boolean;
   isParagraph?: boolean;
 };
+
+// 选中添加节点dialog
+export type OnSelectBlock = (
+  type: BlockEnum,
+  toolDefaultValue?: ToolDefaultValue,
+) => void;
+
+export type Block = {
+  classification?: string;
+  type: BlockEnum;
+  title: string;
+  description?: string;
+};

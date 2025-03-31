@@ -22,41 +22,43 @@ export const useNodesExtraData = () => {
   );
 };
 
-/* export const useAvailableBlocks = (nodeType?: BlockEnum, isInIteration?: boolean, isInLoop?: boolean) => {
-  const nodesExtraData = useNodesExtraData()
+/** @name 根据当前节点返回可选节点 */
+export const useAvailableBlocks = (
+  nodeType?: BlockEnum,
+  isInIteration?: boolean,
+  isInLoop?: boolean,
+) => {
+  const nodesExtraData = useNodesExtraData();
   const availablePrevBlocks = useMemo(() => {
-    if (!nodeType)
-      return []
-    return nodesExtraData[nodeType].availablePrevNodes || []
-  }, [nodeType, nodesExtraData])
+    if (!nodeType) return [];
+    return nodesExtraData[nodeType].availablePrevNodes || [];
+  }, [nodeType, nodesExtraData]);
 
   const availableNextBlocks = useMemo(() => {
-    if (!nodeType)
-      return []
-    return nodesExtraData[nodeType].availableNextNodes || []
-  }, [nodeType, nodesExtraData])
+    if (!nodeType) return [];
+    return nodesExtraData[nodeType].availableNextNodes || [];
+  }, [nodeType, nodesExtraData]);
 
   return useMemo(() => {
     return {
       availablePrevBlocks: availablePrevBlocks.filter((nType) => {
-        if (isInIteration && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
-          return false
+        // if (isInIteration && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
+        //   return false
 
-        if (isInLoop && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
-          return false
+        // if (isInLoop && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
+        //   return false
 
-        return true
+        return true;
       }),
       availableNextBlocks: availableNextBlocks.filter((nType) => {
-        if (isInIteration && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
-          return false
+        // if (isInIteration && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
+        //   return false
 
-        if (isInLoop && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
-          return false
+        // if (isInLoop && (nType === BlockEnum.Iteration || nType === BlockEnum.Loop || nType === BlockEnum.End))
+        //   return false
 
-        return true
+        return true;
       }),
-    }
-  }, [isInIteration, availablePrevBlocks, availableNextBlocks, isInLoop])
-}
- */
+    };
+  }, [isInIteration, availablePrevBlocks, availableNextBlocks, isInLoop]);
+};

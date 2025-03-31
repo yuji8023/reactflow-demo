@@ -9,7 +9,7 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import { ControlMode } from '../types';
 import { useStore } from '../store';
 import { Divider } from 'antd';
-// import AddBlock from './add-block';
+import AddBlock from './add-block';
 import TipPopup from './tip-popup';
 // import { useOperator } from './hooks';
 import cn from '@/utils/classnames';
@@ -45,7 +45,7 @@ const Control = () => {
 
   return (
     <div className="flex items-center rounded-lg border-[0.5px] border-components-actionbar-border bg-components-actionbar-bg p-0.5 text-text-tertiary shadow-lg">
-      {/* <AddBlock /> */}
+      <AddBlock />
       <TipPopup title="添加注释">
         <div
           className={cn(
