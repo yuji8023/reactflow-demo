@@ -1,12 +1,12 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 // import { intersection } from 'lodash-es';
-import type { EdgeProps } from '@xyflow/react';
+import type { EdgeProps } from 'reactflow';
 import {
   BaseEdge,
   EdgeLabelRenderer,
   Position,
   getBezierPath,
-} from '@xyflow/react';
+} from 'reactflow';
 // import { useAvailableBlocks, useNodesInteractions } from './hooks';
 // import BlockSelector from './block-selector';
 // import type { Edge, OnSelectBlock } from './types';

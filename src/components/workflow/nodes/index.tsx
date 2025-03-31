@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import type { NodeProps } from '@xyflow/react';
+import type { NodeProps } from 'reactflow';
 // import type { Node } from '../types';
 // import { CUSTOM_NODE } from '../constants';
 import { NodeComponentMap, PanelComponentMap } from './constants';

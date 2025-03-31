@@ -2,8 +2,9 @@ import type {
   Edge as ReactFlowEdge,
   Node as ReactFlowNode,
   // Viewport,
-} from '@xyflow/react';
-import type { Viewport } from '@xyflow/react';
+} from 'reactflow';
+import type { Viewport } from 'reactflow';
+import type { NumberVarType as VarKindType } from './nodes/types';
 
 export enum BlockEnum {
   Start = 'start',
@@ -54,6 +55,12 @@ export enum VarType {
 export enum ControlMode {
   Pointer = 'pointer',
   Hand = 'hand',
+}
+
+export enum ErrorHandleMode {
+  Terminated = 'terminated',
+  ContinueOnError = 'continue-on-error',
+  RemoveAbnormalOutput = 'remove-abnormal-output',
 }
 
 export type DefaultValueForm = {
@@ -213,4 +220,37 @@ export type FetchWorkflowDraftResponse = {
     edges: Edge[];
     // viewport?: Viewport;
   };
+};
+
+/** @name 添加节点 */
+export type OnNodeAdd = (
+  newNodePayload: {
+    nodeType: BlockEnum;
+    sourceHandle?: string;
+    targetHandle?: string;
+    toolDefaultValue?: ToolDefaultValue;
+  },
+  oldNodesPayload: {
+    prevNodeId?: string;
+    prevNodeSourceHandle?: string;
+    nextNodeId?: string;
+    nextNodeTargetHandle?: string;
+  },
+) => void;
+
+export type Variable = {
+  variable: string;
+  label?:
+    | string
+    | {
+        nodeType: BlockEnum;
+        nodeName: string;
+        variable: string;
+      };
+  value_selector: ValueSelector;
+  variable_type?: VarKindType;
+  value?: string;
+  options?: string[];
+  required?: boolean;
+  isParagraph?: boolean;
 };

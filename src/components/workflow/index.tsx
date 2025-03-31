@@ -11,14 +11,14 @@ import {
   useEdgesState,
   useReactFlow,
   addEdge,
-} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
+} from 'reactflow';
+import 'reactflow/dist/style.css';
 import Loading from '@/components/base/loading';
 import './style.css';
 import Operator from './operator';
 import { WorkflowContextProvider } from './context';
 import { useEventEmitterContextContext } from './context/event-emitter';
-import { useWorkflowInit } from './hooks';
+import { useWorkflowInit, useNodesInteractions } from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
 import { CUSTOM_EDGE, CUSTOM_NODE, WORKFLOW_DATA_UPDATE } from './constants';
@@ -75,10 +75,20 @@ const Workflow: FC<WorkflowProps> = memo(
       }
     });
 
-    const onConnect = useCallback(
-      (params: any) => setEdges((eds) => addEdge(params, eds)),
-      [setEdges],
-    );
+    const {
+      handleNodeDragStart,
+      handleNodeDrag,
+      handleNodeDragStop,
+      // handleNodeEnter,
+      // handleNodeLeave,
+      // handleNodeClick,
+      // handleNodeConnect,
+      // handleNodeConnectStart,
+      // handleNodeConnectEnd,
+      // handleNodeContextMenu,
+      // handleHistoryBack,
+      // handleHistoryForward,
+    } = useNodesInteractions();
 
     const handleHistoryForward = () => {
       console.log('forward');
@@ -104,7 +114,9 @@ const Workflow: FC<WorkflowProps> = memo(
           edgeTypes={edgeTypes}
           nodes={nodes}
           edges={edges}
-          onConnect={onConnect}
+          onNodeDragStart={handleNodeDragStart}
+          onNodeDrag={handleNodeDrag}
+          onNodeDragStop={handleNodeDragStop}
           multiSelectionKeyCode={null}
           deleteKeyCode={null}
           selectionKeyCode={null}

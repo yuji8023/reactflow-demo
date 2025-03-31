@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { debounce } from 'lodash-es';
-import { useStoreApi } from '@xyflow/react';
+import { useStoreApi } from 'reactflow';
 import { useWorkflowHistoryStore } from '../workflow-history-store';
 
 /**
@@ -100,43 +100,40 @@ export const useWorkflowHistory = () => {
     }
   }, []);
 
-  const getHistoryLabel = useCallback(
-    (event: WorkflowHistoryEvent) => {
-      switch (event) {
-        case WorkflowHistoryEvent.NodeTitleChange:
-          return '块标题已更改';
-        case WorkflowHistoryEvent.NodeDescriptionChange:
-          return '块描述已更改';
-        case WorkflowHistoryEvent.LayoutOrganize:
-        case WorkflowHistoryEvent.NodeDragStop:
-          return '块已移动';
-        case WorkflowHistoryEvent.NodeChange:
-          return '块已更改';
-        case WorkflowHistoryEvent.NodeConnect:
-          return '块已连接';
-        case WorkflowHistoryEvent.NodePaste:
-          return '块已粘贴';
-        case WorkflowHistoryEvent.NodeDelete:
-          return '块已删除';
-        case WorkflowHistoryEvent.NodeAdd:
-          return '块已添加';
-        case WorkflowHistoryEvent.EdgeDelete:
-        case WorkflowHistoryEvent.EdgeDeleteByDeleteBranch:
-          return '块已断开连接';
-        case WorkflowHistoryEvent.NodeResize:
-          return '块已调整大小';
-        case WorkflowHistoryEvent.NoteAdd:
-          return '注释已添加';
-        case WorkflowHistoryEvent.NoteChange:
-          return '注释已更改';
-        case WorkflowHistoryEvent.NoteDelete:
-          return '注释已删除';
-        default:
-          return '未知事件';
-      }
-    },
-    [t],
-  );
+  const getHistoryLabel = useCallback((event: WorkflowHistoryEvent) => {
+    switch (event) {
+      case WorkflowHistoryEvent.NodeTitleChange:
+        return '块标题已更改';
+      case WorkflowHistoryEvent.NodeDescriptionChange:
+        return '块描述已更改';
+      case WorkflowHistoryEvent.LayoutOrganize:
+      case WorkflowHistoryEvent.NodeDragStop:
+        return '块已移动';
+      case WorkflowHistoryEvent.NodeChange:
+        return '块已更改';
+      case WorkflowHistoryEvent.NodeConnect:
+        return '块已连接';
+      case WorkflowHistoryEvent.NodePaste:
+        return '块已粘贴';
+      case WorkflowHistoryEvent.NodeDelete:
+        return '块已删除';
+      case WorkflowHistoryEvent.NodeAdd:
+        return '块已添加';
+      case WorkflowHistoryEvent.EdgeDelete:
+      case WorkflowHistoryEvent.EdgeDeleteByDeleteBranch:
+        return '块已断开连接';
+      case WorkflowHistoryEvent.NodeResize:
+        return '块已调整大小';
+      case WorkflowHistoryEvent.NoteAdd:
+        return '注释已添加';
+      case WorkflowHistoryEvent.NoteChange:
+        return '注释已更改';
+      case WorkflowHistoryEvent.NoteDelete:
+        return '注释已删除';
+      default:
+        return '未知事件';
+    }
+  }, []);
 
   return {
     store: workflowHistoryStore,

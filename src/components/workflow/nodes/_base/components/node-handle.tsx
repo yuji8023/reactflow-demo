@@ -1,6 +1,6 @@
 import type { MouseEvent } from 'react';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position } from 'reactflow';
 import { BlockEnum, NodeRunningStatus } from '../../../types';
 import type { Node } from '../../../types';
 import BlockSelector from '../../../block-selector';

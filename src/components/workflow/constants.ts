@@ -12,8 +12,7 @@ type NodesExtraData = {
   checkValid: any;
 };
 
-/** @name index */
-export const ITERATION_CHILDREN_Z_INDEX = 1002;
+let maxParallelLimit = 10;
 
 /** @name 开始节点初始化位置信息（宽高,x/y坐标） */
 export const NODE_WIDTH = 240;
@@ -67,3 +66,26 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
   //   checkValid: EndNodeDefault.checkValid,
   // },
 };
+
+export const ITERATION_NODE_Z_INDEX = 1;
+export const ITERATION_CHILDREN_Z_INDEX = 1002;
+export const ITERATION_PADDING = {
+  top: 65,
+  right: 16,
+  bottom: 20,
+  left: 16,
+};
+
+export const LOOP_NODE_Z_INDEX = 1;
+export const LOOP_CHILDREN_Z_INDEX = 1002;
+export const LOOP_PADDING = {
+  top: 65,
+  right: 16,
+  bottom: 20,
+  left: 16,
+};
+
+/** @name 并行节点 */
+export const PARALLEL_LIMIT = maxParallelLimit; // 10
+export const PARALLEL_DEPTH_LIMIT = 3;
+export const SUPPORT_OUTPUT_VARS_NODE = [BlockEnum.Start];

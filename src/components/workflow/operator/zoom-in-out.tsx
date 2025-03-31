@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Fragment, memo, useCallback, useState } from 'react';
 import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
-import { useReactFlow, useViewport } from '@xyflow/react';
+import { useReactFlow, useViewport } from 'reactflow';
 // import { useNodesSyncDraft, useWorkflowReadOnly } from '../hooks';
 
 import ShortcutsName from '../shortcuts-name';
