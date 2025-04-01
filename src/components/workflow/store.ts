@@ -101,7 +101,7 @@ export const createWorkflowStore = () => {
     setCandidateNode: (candidateNode) => set(() => ({ candidateNode })),
     panelMenu: undefined,
     setPanelMenu: (panelMenu) => set(() => ({ panelMenu })),
-    nodeMenu: undefined,
+    nodeMenu: undefined, // 右键菜单选中节点信息
     setNodeMenu: (nodeMenu) => set(() => ({ nodeMenu })),
     environmentVariables: [],
     setEnvironmentVariables: (environmentVariables) =>

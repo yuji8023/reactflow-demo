@@ -577,7 +577,7 @@ export const useNodesInteractions = () => {
     [store, handleNodeConnect, getNodesReadOnly, workflowStore, reactflow],
   );
 
-  /* const handleNodeDelete = useCallback(
+  const handleNodeDelete = useCallback(
     (nodeId: string) => {
       if (getNodesReadOnly()) return;
 
@@ -591,7 +591,7 @@ export const useNodesInteractions = () => {
 
       if (currentNode.data.type === BlockEnum.Start) return;
 
-      if (currentNode.data.type === BlockEnum.Iteration) {
+      /*  if (currentNode.data.type === BlockEnum.Iteration) {
         const iterationChildren = nodes.filter(
           (node) => node.parentId === currentNode.id,
         );
@@ -628,9 +628,9 @@ export const useNodesInteractions = () => {
             }
           }
         }
-      }
+      } */
 
-      if (currentNode.data.type === BlockEnum.Loop) {
+      /* if (currentNode.data.type === BlockEnum.Loop) {
         const loopChildren = nodes.filter(
           (node) => node.parentId === currentNode.id,
         );
@@ -667,7 +667,7 @@ export const useNodesInteractions = () => {
             }
           }
         }
-      }
+      } */
 
       const connectedEdges = getConnectedEdges([{ id: nodeId } as Node], edges);
       const nodesConnectedSourceOrTargetHandleIdsMap =
@@ -714,7 +714,7 @@ export const useNodesInteractions = () => {
       saveStateToHistory,
       workflowStore,
     ],
-  ); */
+  );
 
   const handleNodeAdd = useCallback<OnNodeAdd>(
     (
@@ -1237,6 +1237,36 @@ export const useNodesInteractions = () => {
     ],
   );
 
+  /** @name 节点右键菜单事件处理器 */
+  const handleNodeContextMenu = useCallback(
+    (e: MouseEvent, node: Node) => {
+      if (
+        node.type === CUSTOM_NOTE_NODE ||
+        node.type === CUSTOM_ITERATION_START_NODE
+      )
+        return;
+
+      if (
+        node.type === CUSTOM_NOTE_NODE ||
+        node.type === CUSTOM_LOOP_START_NODE
+      )
+        return;
+
+      e.preventDefault();
+      const container = document.querySelector('#workflow-container');
+      const { x, y } = container!.getBoundingClientRect();
+      workflowStore.setState({
+        nodeMenu: {
+          top: e.clientY - y,
+          left: e.clientX - x,
+          nodeId: node.id,
+        },
+      });
+      handleNodeSelect(node.id);
+    },
+    [workflowStore, handleNodeSelect],
+  );
+
   return {
     handleNodeDragStart,
     handleNodeDrag,
@@ -1248,12 +1278,12 @@ export const useNodesInteractions = () => {
     handleNodeConnect,
     handleNodeConnectStart,
     handleNodeConnectEnd,
-    // handleNodeDelete,
+    handleNodeDelete,
     // handleNodeChange,
     handleNodeAdd,
     // handleNodeCancelRunningStatus,
     // handleNodesCancelSelected,
-    // handleNodeContextMenu,
+    handleNodeContextMenu,
     // handleNodesCopy,
     // handleNodesPaste,
     // handleNodesDuplicate,

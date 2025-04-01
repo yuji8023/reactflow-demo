@@ -101,11 +101,11 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
           data._isBundled && '!shadow-lg',
         )}
       >
-        {/* {data._inParallelHovering && (
+        {data._inParallelHovering && (
           <div className="top system-2xs-medium-uppercase absolute -top-2.5 left-2 z-10 text-text-tertiary">
             {'并行运行'}
           </div>
-        )} */}
+        )}
         {/* {data._showAddVariablePopup && (
           <AddVariablePopupWithPosition nodeId={id} nodeData={data} />
         )} */}

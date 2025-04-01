@@ -26,12 +26,23 @@ import './style.css';
 import Operator from './operator';
 import { WorkflowContextProvider } from './context';
 import { useEventEmitterContextContext } from './context/event-emitter';
-import { useWorkflowInit, useNodesInteractions } from './hooks';
+import {
+  useWorkflowInit,
+  useNodesInteractions,
+  useEdgesInteractions,
+} from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
-import { CUSTOM_EDGE, CUSTOM_NODE, WORKFLOW_DATA_UPDATE } from './constants';
+import {
+  CUSTOM_EDGE,
+  CUSTOM_NODE,
+  WORKFLOW_DATA_UPDATE,
+  ITERATION_CHILDREN_Z_INDEX,
+} from './constants';
 import CustomNode from './nodes';
 import CustomEdge from './custom-edge';
+import CustomConnectionLine from './custom-connection-line';
+import HelpLine from './help-line';
 import CandidateNode from './candidate-node';
 import { useStore, useWorkflowStore } from './store';
 import { initialEdges, initialNodes } from './utils';
@@ -123,10 +134,13 @@ const Workflow: FC<WorkflowProps> = memo(
       handleNodeConnect,
       handleNodeConnectStart,
       handleNodeConnectEnd,
-      // handleNodeContextMenu,
+      handleNodeContextMenu,
       // handleHistoryBack,
       // handleHistoryForward,
     } = useNodesInteractions();
+
+    const { handleEdgeEnter, handleEdgeLeave, handleEdgesChange } =
+      useEdgesInteractions();
 
     const handleHistoryForward = () => {
       console.log('forward');
@@ -149,6 +163,7 @@ const Workflow: FC<WorkflowProps> = memo(
           handleRedo={handleHistoryForward}
           handleUndo={handleHistoryBack}
         />
+        <HelpLine />
         <ReactFlow
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
@@ -160,14 +175,19 @@ const Workflow: FC<WorkflowProps> = memo(
           onNodeMouseEnter={handleNodeEnter}
           onNodeMouseLeave={handleNodeLeave}
           onNodeClick={handleNodeClick}
-          // onNodeContextMenu={handleNodeContextMenu}
+          onNodeContextMenu={handleNodeContextMenu}
           onConnect={handleNodeConnect}
           onConnectStart={handleNodeConnectStart}
           onConnectEnd={handleNodeConnectEnd}
+          onEdgeMouseEnter={handleEdgeEnter}
+          onEdgeMouseLeave={handleEdgeLeave}
+          onEdgesChange={handleEdgesChange}
+          // TODO: add edge context menu
+          connectionLineComponent={CustomConnectionLine}
+          connectionLineContainerStyle={{ zIndex: ITERATION_CHILDREN_Z_INDEX }}
           multiSelectionKeyCode={null}
           deleteKeyCode={null}
           selectionKeyCode={null}
-          connectionLineStyle={{ zIndex: 1002 }}
           minZoom={0.25}
         >
           <Background

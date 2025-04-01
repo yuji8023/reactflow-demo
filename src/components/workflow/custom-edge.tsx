@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-// import { intersection } from 'lodash-es';
+import { intersection } from 'lodash-es';
 import type { EdgeProps } from 'reactflow';
 import {
   BaseEdge,
@@ -7,9 +7,9 @@ import {
   Position,
   getBezierPath,
 } from 'reactflow';
-// import { useAvailableBlocks, useNodesInteractions } from './hooks';
-// import BlockSelector from './block-selector';
-// import type { Edge, OnSelectBlock } from './types';
+import { useAvailableBlocks, useNodesInteractions } from './hooks';
+import BlockSelector from './block-selector';
+import type { Edge, OnSelectBlock } from './types';
 import { NodeRunningStatus } from './types';
 import { getEdgeColor } from './utils';
 // import { ITERATION_CHILDREN_Z_INDEX, LOOP_CHILDREN_Z_INDEX } from './constants';
@@ -40,17 +40,17 @@ const CustomEdge = ({
     curvature: 0.16,
   });
   const [open, setOpen] = useState(false);
-  // const { handleNodeAdd } = useNodesInteractions();
-  // const { availablePrevBlocks } = useAvailableBlocks(
-  //   (data as Edge['data'])!.targetType,
-  //   (data as Edge['data'])?.isInIteration,
-  //   (data as Edge['data'])?.isInLoop,
-  // );
-  // const { availableNextBlocks } = useAvailableBlocks(
-  //   (data as Edge['data'])!.sourceType,
-  //   (data as Edge['data'])?.isInIteration,
-  //   (data as Edge['data'])?.isInLoop,
-  // );
+  const { handleNodeAdd } = useNodesInteractions();
+  const { availablePrevBlocks } = useAvailableBlocks(
+    (data as Edge['data'])!.targetType,
+    (data as Edge['data'])?.isInIteration,
+    (data as Edge['data'])?.isInLoop,
+  );
+  const { availableNextBlocks } = useAvailableBlocks(
+    (data as Edge['data'])!.sourceType,
+    (data as Edge['data'])?.isInIteration,
+    (data as Edge['data'])?.isInLoop,
+  );
   const { _sourceRunningStatus, _targetRunningStatus } = data;
 
   const linearGradientId = useMemo(() => {
@@ -66,27 +66,27 @@ const CustomEdge = ({
       return id;
   }, [_sourceRunningStatus, _targetRunningStatus, id]);
 
-  // const handleOpenChange = useCallback((v: boolean) => {
-  //   setOpen(v);
-  // }, []);
+  const handleOpenChange = useCallback((v: boolean) => {
+    setOpen(v);
+  }, []);
 
-  // const handleInsert = useCallback<OnSelectBlock>(
-  //   (nodeType, toolDefaultValue) => {
-  //     handleNodeAdd(
-  //       {
-  //         nodeType,
-  //         toolDefaultValue,
-  //       },
-  //       {
-  //         prevNodeId: source,
-  //         prevNodeSourceHandle: sourceHandleId || 'source',
-  //         nextNodeId: target,
-  //         nextNodeTargetHandle: targetHandleId || 'target',
-  //       },
-  //     );
-  //   },
-  //   [handleNodeAdd, source, sourceHandleId, target, targetHandleId],
-  // );
+  const handleInsert = useCallback<OnSelectBlock>(
+    (nodeType, toolDefaultValue) => {
+      handleNodeAdd(
+        {
+          nodeType,
+          toolDefaultValue,
+        },
+        {
+          prevNodeId: source,
+          prevNodeSourceHandle: sourceHandleId || 'source',
+          nextNodeId: target,
+          nextNodeTargetHandle: targetHandleId || 'target',
+        },
+      );
+    },
+    [handleNodeAdd, source, sourceHandleId, target, targetHandleId],
+  );
 
   const stroke = useMemo(() => {
     if (selected) return getEdgeColor(NodeRunningStatus.Running);
@@ -145,14 +145,17 @@ const CustomEdge = ({
             opacity: data?._waitingRun ? 0.7 : 1,
           }}
         >
-          {/* <BlockSelector
+          <BlockSelector
             open={open}
             onOpenChange={handleOpenChange}
             asChild
             onSelect={handleInsert}
-            availableBlocksTypes={intersection(availablePrevBlocks, availableNextBlocks)}
+            availableBlocksTypes={intersection(
+              availablePrevBlocks,
+              availableNextBlocks,
+            )}
             triggerClassName={() => 'hover:scale-150 transition-all'}
-          /> */}
+          />
         </div>
       </EdgeLabelRenderer>
     </>
