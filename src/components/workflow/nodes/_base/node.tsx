@@ -11,7 +11,7 @@ import { NodeRunningStatus } from '../../types';
 import { useNodesReadOnly } from '../../hooks';
 // import { hasErrorHandleNode, hasRetryNode } from '../../utils';
 // import { useNodeIterationInteractions } from '../iteration/use-interactions';
-// import { NodeSourceHandle, NodeTargetHandle } from './components/node-handle';
+import { NodeSourceHandle, NodeTargetHandle } from './components/node-handle';
 // import NodeControl from './components/node-control';
 // import ErrorHandleOnNode from './components/error-handle/error-handle-on-node';
 // import RetryOnNode from './components/retry/retry-on-node';
@@ -109,22 +109,22 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
         {/* {data._showAddVariablePopup && (
           <AddVariablePopupWithPosition nodeId={id} nodeData={data} />
         )} */}
-        {/* {!data._isCandidate && (
+        {!data._isCandidate && (
           <NodeTargetHandle
             id={id}
             data={data}
             handleClassName="!top-4 !-left-[9px] !translate-y-0"
             handleId="target"
           />
-        )} */}
-        {/* {!data._isCandidate && (
+        )}
+        {!data._isCandidate && (
           <NodeSourceHandle
             id={id}
             data={data}
             handleClassName="!top-4 !-right-[9px] !translate-y-0"
             handleId="source"
           />
-        )} */}
+        )}
         {/* {!data._runningStatus && !nodesReadOnly && !data._isCandidate && (
           <NodeControl id={id} data={data} />
         )} */}
