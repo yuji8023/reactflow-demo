@@ -7,7 +7,7 @@ import BlockSelector from '../../../block-selector';
 import type { ToolDefaultValue } from '../../../block-selector/types';
 import {
   useAvailableBlocks,
-  useIsChatMode,
+  // useIsChatMode,
   useNodesInteractions,
   useNodesReadOnly,
   useWorkflow,
@@ -123,7 +123,6 @@ export const NodeSourceHandle = memo(
     nodeSelectorClassName,
     showExceptionStatus,
   }: NodeHandleProps) => {
-    const { t } = useTranslation();
     const notInitialWorkflow = useStore((s) => s.notInitialWorkflow);
     const [open, setOpen] = useState(false);
     const { handleNodeAdd } = useNodesInteractions();
@@ -134,7 +133,7 @@ export const NodeSourceHandle = memo(
       data.isInLoop,
     );
     const isConnectable = !!availableNextBlocks.length;
-    const isChatMode = useIsChatMode();
+    // const isChatMode = false;
     const { checkParallelLimit } = useWorkflow();
 
     const connected = data._connectedSourceHandleIds?.includes(handleId);
@@ -165,9 +164,8 @@ export const NodeSourceHandle = memo(
     );
 
     useEffect(() => {
-      if (notInitialWorkflow && data.type === BlockEnum.Start && !isChatMode)
-        setOpen(true);
-    }, [notInitialWorkflow, data.type, isChatMode]);
+      if (notInitialWorkflow && data.type === BlockEnum.Start) setOpen(true);
+    }, [notInitialWorkflow, data.type]);
 
     return (
       <Handle
@@ -194,16 +192,12 @@ export const NodeSourceHandle = memo(
         <div className="absolute -top-1 left-1/2 hidden -translate-x-1/2 -translate-y-full rounded-lg border-[0.5px] border-components-panel-border bg-components-tooltip-bg p-1.5 shadow-lg group-hover/handle:block">
           <div className="system-xs-regular text-text-tertiary">
             <div className=" whitespace-nowrap">
-              <span className="system-xs-medium text-text-secondary">
-                {t('workflow.common.parallelTip.click.title')}
-              </span>
-              {t('workflow.common.parallelTip.click.desc')}
+              <span className="system-xs-medium text-text-secondary">点击</span>
+              添加节点
             </div>
             <div>
-              <span className="system-xs-medium text-text-secondary">
-                {t('workflow.common.parallelTip.drag.title')}
-              </span>
-              {t('workflow.common.parallelTip.drag.desc')}
+              <span className="system-xs-medium text-text-secondary">拖拽</span>
+              连接节点
             </div>
           </div>
         </div>

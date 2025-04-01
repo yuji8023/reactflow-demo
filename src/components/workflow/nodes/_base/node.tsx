@@ -47,7 +47,6 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
     id,
     handleNodeIterationChildSizeChange,
   ]); */
-
   const showSelectedBorder =
     data.selected || data._isBundled || data._isEntering;
   const {
@@ -130,12 +129,7 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
           <NodeControl id={id} data={data} />
         )} */}
         <div className={cn('flex items-center rounded-t-2xl px-3 pb-2 pt-3')}>
-          <BlockIcon
-            className="mr-2 shrink-0"
-            type={data.type}
-            size="md"
-            // toolIcon={toolIcon}
-          />
+          <BlockIcon className="mr-2 shrink-0" type={data.type} size="md" />
           <div
             title={data.title}
             className="system-sm-semibold-uppercase mr-1 flex grow items-center truncate text-text-primary"

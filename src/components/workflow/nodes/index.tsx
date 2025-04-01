@@ -40,4 +40,5 @@ CustomNode.displayName = 'CustomNode';
 
 // Panel.displayName = 'Panel';
 
+/** @name 自定义节点入口 */
 export default memo(CustomNode);

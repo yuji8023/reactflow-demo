@@ -117,8 +117,8 @@ const Workflow: FC<WorkflowProps> = memo(
       handleNodeDragStart,
       handleNodeDrag,
       handleNodeDragStop,
-      // handleNodeEnter,
-      // handleNodeLeave,
+      handleNodeEnter,
+      handleNodeLeave,
       // handleNodeClick,
       // handleNodeConnect,
       // handleNodeConnectStart,
@@ -157,6 +157,8 @@ const Workflow: FC<WorkflowProps> = memo(
           onNodeDragStart={handleNodeDragStart}
           onNodeDrag={handleNodeDrag}
           onNodeDragStop={handleNodeDragStop}
+          onNodeMouseEnter={handleNodeEnter}
+          onNodeMouseLeave={handleNodeLeave}
           multiSelectionKeyCode={null}
           deleteKeyCode={null}
           selectionKeyCode={null}

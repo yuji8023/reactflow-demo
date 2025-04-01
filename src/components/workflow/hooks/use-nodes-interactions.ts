@@ -184,7 +184,7 @@ export const useNodesInteractions = () => {
     ],
   );
 
-  /* const handleNodeEnter = useCallback<NodeMouseHandler>(
+  const handleNodeEnter = useCallback<NodeMouseHandler>(
     (_, node) => {
       if (getNodesReadOnly()) return;
 
@@ -202,48 +202,48 @@ export const useNodesInteractions = () => {
 
       const { getNodes, setNodes, edges, setEdges } = store.getState();
       const nodes = getNodes();
-      const { connectingNodePayload, setEnteringNodePayload } =
-        workflowStore.getState();
+      // const { connectingNodePayload, setEnteringNodePayload } =
+      //   workflowStore.getState();
 
-      if (connectingNodePayload) {
-        if (connectingNodePayload.nodeId === node.id) return;
-        const connectingNode: Node = nodes.find(
-          (n) => n.id === connectingNodePayload.nodeId,
-        )!;
-        const sameLevel = connectingNode.parentId === node.parentId;
+      // if (connectingNodePayload) {
+      //   if (connectingNodePayload.nodeId === node.id) return;
+      //   const connectingNode: Node = nodes.find(
+      //     (n) => n.id === connectingNodePayload.nodeId,
+      //   )!;
+      //   const sameLevel = connectingNode.parentId === node.parentId;
 
-        if (sameLevel) {
-          setEnteringNodePayload({
-            nodeId: node.id,
-            nodeData: node.data as VariableAssignerNodeType,
-          });
-          const fromType = connectingNodePayload.handleType;
+      //   if (sameLevel) {
+      //     setEnteringNodePayload({
+      //       nodeId: node.id,
+      //       nodeData: node.data as VariableAssignerNodeType,
+      //     });
+      //     const fromType = connectingNodePayload.handleType;
 
-          const newNodes = produce(nodes, (draft) => {
-            draft.forEach((n) => {
-              if (
-                n.id === node.id &&
-                fromType === 'source' &&
-                (node.data.type === BlockEnum.VariableAssigner ||
-                  node.data.type === BlockEnum.VariableAggregator)
-              ) {
-                if (!node.data.advanced_settings?.group_enabled)
-                  n.data._isEntering = true;
-              }
-              if (
-                n.id === node.id &&
-                fromType === 'target' &&
-                (connectingNode.data.type === BlockEnum.VariableAssigner ||
-                  connectingNode.data.type === BlockEnum.VariableAggregator) &&
-                node.data.type !== BlockEnum.IfElse &&
-                node.data.type !== BlockEnum.QuestionClassifier
-              )
-                n.data._isEntering = true;
-            });
-          });
-          setNodes(newNodes);
-        }
-      }
+      //     const newNodes = produce(nodes, (draft) => {
+      //       draft.forEach((n) => {
+      //         if (
+      //           n.id === node.id &&
+      //           fromType === 'source' &&
+      //           (node.data.type === BlockEnum.VariableAssigner ||
+      //             node.data.type === BlockEnum.VariableAggregator)
+      //         ) {
+      //           if (!node.data.advanced_settings?.group_enabled)
+      //             n.data._isEntering = true;
+      //         }
+      //         if (
+      //           n.id === node.id &&
+      //           fromType === 'target' &&
+      //           (connectingNode.data.type === BlockEnum.VariableAssigner ||
+      //             connectingNode.data.type === BlockEnum.VariableAggregator) &&
+      //           node.data.type !== BlockEnum.IfElse &&
+      //           node.data.type !== BlockEnum.QuestionClassifier
+      //         )
+      //           n.data._isEntering = true;
+      //       });
+      //     });
+      //     setNodes(newNodes);
+      //   }
+      // }
       const newEdges = produce(edges, (draft) => {
         const connectedEdges = getConnectedEdges([node], edges);
 
@@ -286,8 +286,8 @@ export const useNodesInteractions = () => {
     },
     [store, workflowStore, getNodesReadOnly],
   );
- */
-  /* const handleNodeLeave = useCallback<NodeMouseHandler>(
+
+  const handleNodeLeave = useCallback<NodeMouseHandler>(
     (_, node) => {
       if (getNodesReadOnly()) return;
 
@@ -303,8 +303,8 @@ export const useNodesInteractions = () => {
       )
         return;
 
-      const { setEnteringNodePayload } = workflowStore.getState();
-      setEnteringNodePayload(undefined);
+      // const { setEnteringNodePayload } = workflowStore.getState();
+      // setEnteringNodePayload(undefined);
       const { getNodes, setNodes, edges, setEdges } = store.getState();
       const newNodes = produce(getNodes(), (draft) => {
         draft.forEach((node) => {
@@ -321,7 +321,7 @@ export const useNodesInteractions = () => {
       setEdges(newEdges);
     },
     [store, workflowStore, getNodesReadOnly],
-  ); */
+  );
 
   const handleNodeSelect = useCallback(
     (nodeId: string, cancelSelection?: boolean) => {
@@ -1240,8 +1240,8 @@ export const useNodesInteractions = () => {
     handleNodeDragStart,
     handleNodeDrag,
     handleNodeDragStop,
-    // handleNodeEnter,
-    // handleNodeLeave,
+    handleNodeEnter,
+    handleNodeLeave,
     handleNodeSelect,
     handleNodeClick,
     // handleNodeConnect,

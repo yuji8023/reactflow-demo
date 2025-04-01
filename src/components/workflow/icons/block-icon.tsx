@@ -30,7 +30,6 @@ const BlockIcon: FC<BlockIconProps> = ({
   className,
   toolIcon,
 }) => {
-  console.log(type);
   return (
     <div
       className={`

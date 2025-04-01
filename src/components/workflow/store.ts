@@ -60,6 +60,8 @@ type Shape = {
     elementY: number;
   };
   setMousePosition: (mousePosition: Shape['mousePosition']) => void;
+  notInitialWorkflow: boolean;
+  setNotInitialWorkflow: (notInitialWorkflow: boolean) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -92,6 +94,9 @@ export const createWorkflowStore = () => {
       set(() => ({ conversationVariables })),
     mousePosition: { pageX: 0, pageY: 0, elementX: 0, elementY: 0 }, // 鼠标在当前react视口坐标
     setMousePosition: (mousePosition) => set(() => ({ mousePosition })),
+    notInitialWorkflow: false,
+    setNotInitialWorkflow: (notInitialWorkflow) =>
+      set(() => ({ notInitialWorkflow })),
   }));
 };
 
