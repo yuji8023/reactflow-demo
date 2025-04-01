@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { memo } from 'react';
 import { BlockEnum } from '../types';
 import { Home, End } from './nodes';
+import { ApiTwoTone } from '@ant-design/icons';
 
 type BlockIconProps = {
   type: BlockEnum;
@@ -18,11 +19,13 @@ const getIcon = (type: BlockEnum, className: string) => {
   return {
     [BlockEnum.Start]: <Home className={className} />,
     [BlockEnum.End]: <End className={className} />,
+    [BlockEnum.Middle]: <ApiTwoTone className={className} />,
   }[type];
 };
 const ICON_CONTAINER_BG_COLOR_MAP: Record<string, string> = {
   [BlockEnum.Start]: 'bg-util-colors-blue-brand-blue-brand-500',
   [BlockEnum.End]: 'bg-util-colors-warning-warning-500',
+  [BlockEnum.Middle]: 'bg-util-colors-blue-brand-blue-brand-500',
 };
 const BlockIcon: FC<BlockIconProps> = ({
   type,

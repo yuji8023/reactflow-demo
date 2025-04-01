@@ -1,6 +1,7 @@
 import { BlockEnum } from './types';
 import StartNodeDefault from './nodes/start/default';
 import EndNodeDefault from './nodes/end/default';
+import MiddleNodeDefault from './nodes/middle/default';
 /* 该文件导出一些workflow的配置 */
 
 type NodesExtraData = {
@@ -44,6 +45,12 @@ export const NODES_INITIAL_DATA = {
     desc: '',
     ...EndNodeDefault.defaultValue,
   },
+  [BlockEnum.Middle]: {
+    type: BlockEnum.Middle,
+    title: '过程',
+    desc: '',
+    ...MiddleNodeDefault.defaultValue,
+  },
 };
 
 /** @name 节点额外数据 */
@@ -65,6 +72,15 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
     getAvailablePrevNodes: EndNodeDefault.getAvailablePrevNodes,
     getAvailableNextNodes: EndNodeDefault.getAvailableNextNodes,
     checkValid: EndNodeDefault.checkValid,
+  },
+  [BlockEnum.Middle]: {
+    author: 'yuji',
+    about: '定义一个 workflow 流程的中间过程类型',
+    availablePrevNodes: [],
+    availableNextNodes: [],
+    getAvailablePrevNodes: MiddleNodeDefault.getAvailablePrevNodes,
+    getAvailableNextNodes: MiddleNodeDefault.getAvailableNextNodes,
+    checkValid: MiddleNodeDefault.checkValid,
   },
 };
 

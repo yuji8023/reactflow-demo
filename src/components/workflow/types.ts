@@ -9,6 +9,7 @@ import type { NumberVarType as VarKindType } from './nodes/types';
 export enum BlockEnum {
   Start = 'start',
   End = 'end',
+  Middle = 'middle',
   // Answer = 'answer',
   // LLM = 'llm',
   // KnowledgeRetrieval = 'knowledge-retrieval',

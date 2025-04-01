@@ -14,6 +14,12 @@ export const BLOCKS: Block[] = [
     type: BlockEnum.End,
     title: '结束',
   },
+  {
+    classification: BlockClassificationEnum.Default,
+    type: BlockEnum.Middle,
+    title: '过程',
+    description: '',
+  },
   /*   {
     classification: BlockClassificationEnum.Default,
     type: BlockEnum.LLM,
