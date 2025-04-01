@@ -13,7 +13,7 @@ import {
   useWorkflow,
   useWorkflowVariables,
 } from '../../hooks';
-// import { VarBlockIcon } from '@/app/components/workflow/block-icon';
+import { VarBlockIcon } from '../../icons/block-icon';
 // import { Line3 } from '@/app/components/base/icons/src/public/common';
 // import { Variable02 } from '@/app/components/base/icons/src/vender/solid/development';
 // import {
@@ -67,10 +67,10 @@ const Node: FC<NodeProps<EndNodeType>> = ({ id, data }) => {
               {!isEnv && !isChatVar && (
                 <>
                   <div className="p-[1px]">
-                    {/* <VarBlockIcon
-                      className='!text-gray-900'
+                    <VarBlockIcon
+                      className="!text-gray-900"
                       type={node?.data.type || BlockEnum.Start}
-                    /> */}
+                    />
                   </div>
                   <div className="max-w-[75px] truncate">
                     {node?.data.title}

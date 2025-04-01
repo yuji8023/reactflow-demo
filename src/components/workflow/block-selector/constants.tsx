@@ -12,7 +12,7 @@ export const BLOCKS: Block[] = [
   {
     classification: BlockClassificationEnum.Default,
     type: BlockEnum.End,
-    title: 'End',
+    title: '结束',
   },
   /*   {
     classification: BlockClassificationEnum.Default,

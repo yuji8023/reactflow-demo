@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo } from 'react';
 import { groupBy } from 'lodash-es';
-// import BlockIcon from '../block-icon'
+import BlockIcon from '../icons/block-icon';
 import { BlockEnum } from '../types';
 import {
   // useIsChatMode,
@@ -67,11 +67,7 @@ const Blocks = ({
               popupClassName="w-[200px]"
               popupContent={
                 <div>
-                  {/* <BlockIcon
-                    size='md'
-                    className='mb-2'
-                    type={block.type}
-                  /> */}
+                  <BlockIcon size="md" className="mb-2" type={block.type} />
                   <div className="system-md-medium mb-1 text-text-primary">
                     {block.title}
                   </div>
@@ -86,7 +82,7 @@ const Blocks = ({
                 className="flex h-8 w-full cursor-pointer items-center rounded-lg px-3 hover:bg-state-base-hover"
                 onClick={() => onSelect(block.type)}
               >
-                {/* <BlockIcon className="mr-2 shrink-0" type={block.type} /> */}
+                <BlockIcon className="mr-2 shrink-0" type={block.type} />
                 <div className="text-sm text-text-secondary">{block.title}</div>
               </div>
             </Tooltip>

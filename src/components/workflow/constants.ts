@@ -59,7 +59,7 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
   },
   [BlockEnum.End]: {
     author: 'Dify',
-    about: '',
+    about: '定义一个 workflow 流程的结束和结果类型',
     availablePrevNodes: [],
     availableNextNodes: [],
     getAvailablePrevNodes: EndNodeDefault.getAvailablePrevNodes,

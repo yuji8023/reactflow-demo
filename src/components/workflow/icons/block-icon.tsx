@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { memo } from 'react';
 import { BlockEnum } from '../types';
-import { Home } from './nodes';
+import { Home, End } from './nodes';
 
 type BlockIconProps = {
   type: BlockEnum;
@@ -17,10 +17,12 @@ const ICON_CONTAINER_CLASSNAME_SIZE_MAP: Record<string, string> = {
 const getIcon = (type: BlockEnum, className: string) => {
   return {
     [BlockEnum.Start]: <Home className={className} />,
+    [BlockEnum.End]: <End className={className} />,
   }[type];
 };
 const ICON_CONTAINER_BG_COLOR_MAP: Record<string, string> = {
   [BlockEnum.Start]: 'bg-util-colors-blue-brand-blue-brand-500',
+  [BlockEnum.End]: 'bg-util-colors-warning-warning-500',
 };
 const BlockIcon: FC<BlockIconProps> = ({
   type,
@@ -28,6 +30,7 @@ const BlockIcon: FC<BlockIconProps> = ({
   className,
   toolIcon,
 }) => {
+  console.log(type);
   return (
     <div
       className={`

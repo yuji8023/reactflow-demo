@@ -17,7 +17,7 @@ import { useNodesReadOnly } from '../../hooks';
 // import RetryOnNode from './components/retry/retry-on-node';
 // import AddVariablePopupWithPosition from './components/add-variable-popup-with-position';
 import cn from '@/utils/classnames';
-// import BlockIcon from '../../icons/block-icon';
+import BlockIcon from '../../icons/block-icon';
 
 type BaseNodeProps = {
   children: ReactNode;
@@ -130,12 +130,12 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
           <NodeControl id={id} data={data} />
         )} */}
         <div className={cn('flex items-center rounded-t-2xl px-3 pb-2 pt-3')}>
-          {/* <BlockIcon
+          <BlockIcon
             className="mr-2 shrink-0"
             type={data.type}
             size="md"
-            toolIcon={toolIcon}
-          /> */}
+            // toolIcon={toolIcon}
+          />
           <div
             title={data.title}
             className="system-sm-semibold-uppercase mr-1 flex grow items-center truncate text-text-primary"
