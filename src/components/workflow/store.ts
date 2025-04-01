@@ -7,6 +7,7 @@ import type {
   HelpLineHorizontalPosition,
   HelpLineVerticalPosition,
 } from './help-line/types';
+import { VariableAssignerNodeType } from './nodes/variable-assigner/types';
 import type {
   ConversationVariable,
   // Edge,
@@ -62,6 +63,22 @@ type Shape = {
   setMousePosition: (mousePosition: Shape['mousePosition']) => void;
   notInitialWorkflow: boolean;
   setNotInitialWorkflow: (notInitialWorkflow: boolean) => void;
+  connectingNodePayload?: {
+    nodeId: string;
+    nodeType: string;
+    handleType: string;
+    handleId: string | null;
+  };
+  setConnectingNodePayload: (
+    startConnectingPayload?: Shape['connectingNodePayload'],
+  ) => void;
+  enteringNodePayload?: {
+    nodeId: string;
+    nodeData: VariableAssignerNodeType;
+  };
+  setEnteringNodePayload: (
+    enteringNodePayload?: Shape['enteringNodePayload'],
+  ) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -97,6 +114,12 @@ export const createWorkflowStore = () => {
     notInitialWorkflow: false,
     setNotInitialWorkflow: (notInitialWorkflow) =>
       set(() => ({ notInitialWorkflow })),
+    connectingNodePayload: undefined,
+    setConnectingNodePayload: (connectingNodePayload) =>
+      set(() => ({ connectingNodePayload })),
+    enteringNodePayload: undefined, // @name 连接线相关xian 的节点信息
+    setEnteringNodePayload: (enteringNodePayload) =>
+      set(() => ({ enteringNodePayload })),
   }));
 };
 

@@ -63,7 +63,7 @@ import {
 export const useNodesInteractions = () => {
   const store = useStoreApi();
   const workflowStore = useWorkflowStore();
-  // const reactflow = useReactFlow();
+  const reactflow = useReactFlow();
   // const { store: workflowHistoryStore } = useWorkflowHistoryStore();
   const { handleSyncWorkflowDraft } = useNodesSyncDraft();
   const { checkNestedParallelLimit, getAfterNodesInSameBranch } = useWorkflow();
@@ -375,7 +375,7 @@ export const useNodesInteractions = () => {
     [handleNodeSelect],
   );
 
-  /* const handleNodeConnect = useCallback<OnConnect>(
+  const handleNodeConnect = useCallback<OnConnect>(
     ({ source, sourceHandle, target, targetHandle }) => {
       if (source === target) return;
       if (getNodesReadOnly()) return;
@@ -405,9 +405,10 @@ export const useNodesInteractions = () => {
         return;
 
       const parendNode = nodes.find((node) => node.id === targetNode?.parentId);
-      const isInIteration =
-        parendNode && parendNode.data.type === BlockEnum.Iteration;
-      const isInLoop = !!parendNode && parendNode.data.type === BlockEnum.Loop;
+      const isInIteration = false;
+      // (parendNode && parendNode.data.type === BlockEnum.Iteration;)
+      const isInLoop = false;
+      // (!!parendNode && parendNode.data.type === BlockEnum.Loop;)
 
       const newEdge = {
         id: `${source}-${sourceHandle}-${target}-${targetHandle}`,
@@ -470,9 +471,9 @@ export const useNodesInteractions = () => {
       saveStateToHistory,
       checkNestedParallelLimit,
     ],
-  ); */
+  );
 
-  /* const handleNodeConnectStart = useCallback<OnConnectStart>(
+  const handleNodeConnectStart = useCallback<OnConnectStart>(
     (_, { nodeId, handleType, handleId }) => {
       if (getNodesReadOnly()) return;
 
@@ -483,12 +484,12 @@ export const useNodesInteractions = () => {
 
         if (node.type === CUSTOM_NOTE_NODE) return;
 
-        if (
+        /*   if (
           node.data.type === BlockEnum.VariableAggregator ||
           node.data.type === BlockEnum.VariableAssigner
         ) {
           if (handleType === 'target') return;
-        }
+        } */
 
         setConnectingNodePayload({
           nodeId,
@@ -499,9 +500,9 @@ export const useNodesInteractions = () => {
       }
     },
     [store, workflowStore, getNodesReadOnly],
-  ); */
+  );
 
-  /* const handleNodeConnectEnd = useCallback<OnConnectEnd>(
+  const handleNodeConnectEnd = useCallback<OnConnectEnd>(
     (e: any) => {
       if (getNodesReadOnly()) return;
 
@@ -512,24 +513,24 @@ export const useNodesInteractions = () => {
         setEnteringNodePayload,
       } = workflowStore.getState();
       if (connectingNodePayload && enteringNodePayload) {
-        const { setShowAssignVariablePopup, hoveringAssignVariableGroupId } =
-          workflowStore.getState();
-        const { screenToFlowPosition } = reactflow;
+        // const { setShowAssignVariablePopup, hoveringAssignVariableGroupId } =
+        //   workflowStore.getState();
+        // const { screenToFlowPosition } = reactflow;
         const { getNodes, setNodes } = store.getState();
         const nodes = getNodes();
-        const fromHandleType = connectingNodePayload.handleType;
-        const fromHandleId = connectingNodePayload.handleId;
+        // const fromHandleType = connectingNodePayload.handleType;
+        // const fromHandleId = connectingNodePayload.handleId;
         const fromNode = nodes.find(
           (n) => n.id === connectingNodePayload.nodeId,
         )!;
         const toNode = nodes.find((n) => n.id === enteringNodePayload.nodeId)!;
-        const toParentNode = nodes.find((n) => n.id === toNode.parentId);
+        // const toParentNode = nodes.find((n) => n.id === toNode.parentId);
 
         if (fromNode.parentId !== toNode.parentId) return;
 
-        const { x, y } = screenToFlowPosition({ x: e.x, y: e.y });
+        // const { x, y } = screenToFlowPosition({ x: e.x, y: e.y });
 
-        if (
+        /* if (
           fromHandleType === 'source' &&
           (toNode.data.type === BlockEnum.VariableAssigner ||
             toNode.data.type === BlockEnum.VariableAggregator)
@@ -568,13 +569,13 @@ export const useNodesInteractions = () => {
             target: toNode.id,
             targetHandle: 'target',
           });
-        }
+        } */
       }
       setConnectingNodePayload(undefined);
       setEnteringNodePayload(undefined);
     },
     [store, handleNodeConnect, getNodesReadOnly, workflowStore, reactflow],
-  ); */
+  );
 
   /* const handleNodeDelete = useCallback(
     (nodeId: string) => {
@@ -1244,9 +1245,9 @@ export const useNodesInteractions = () => {
     handleNodeLeave,
     handleNodeSelect,
     handleNodeClick,
-    // handleNodeConnect,
-    // handleNodeConnectStart,
-    // handleNodeConnectEnd,
+    handleNodeConnect,
+    handleNodeConnectStart,
+    handleNodeConnectEnd,
     // handleNodeDelete,
     // handleNodeChange,
     handleNodeAdd,
