@@ -9,6 +9,11 @@ export const BLOCKS: Block[] = [
     title: '开始',
     description: '',
   },
+  {
+    classification: BlockClassificationEnum.Default,
+    type: BlockEnum.End,
+    title: 'End',
+  },
   /*   {
     classification: BlockClassificationEnum.Default,
     type: BlockEnum.LLM,

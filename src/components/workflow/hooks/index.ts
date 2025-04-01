@@ -6,3 +6,4 @@ export * from './use-helpline';
 export * from './use-nodes-interactions';
 export * from './use-nodes-data';
 export * from './use-panel-interactions';
+export * from './use-workflow-variables';

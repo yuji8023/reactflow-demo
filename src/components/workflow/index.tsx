@@ -1,6 +1,14 @@
 import type { FC } from 'react';
-import React, { memo, useCallback, useMemo, useEffect, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useMemo,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import { setAutoFreeze } from 'immer';
+import { useEventListener } from 'ahooks';
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -24,6 +32,8 @@ import type { Edge, Node } from './types';
 import { CUSTOM_EDGE, CUSTOM_NODE, WORKFLOW_DATA_UPDATE } from './constants';
 import CustomNode from './nodes';
 import CustomEdge from './custom-edge';
+import CandidateNode from './candidate-node';
+import { useStore, useWorkflowStore } from './store';
 import { initialEdges, initialNodes } from './utils';
 
 type WorkflowProps = {
@@ -42,6 +52,8 @@ const edgeTypes = {
 
 const Workflow: FC<WorkflowProps> = memo(
   ({ nodes: originalNodes, edges: originalEdges }) => {
+    const workflowContainerRef = useRef<HTMLDivElement>(null);
+    const workflowStore = useWorkflowStore();
     const reactflow = useReactFlow();
     const [nodes, setNodes] = useNodesState(originalNodes);
     const [edges, setEdges] = useEdgesState(originalEdges);
@@ -75,6 +87,32 @@ const Workflow: FC<WorkflowProps> = memo(
       }
     });
 
+    useEventListener('keydown', (e) => {
+      if ((e.key === 'd' || e.key === 'D') && (e.ctrlKey || e.metaKey))
+        e.preventDefault();
+      if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey))
+        e.preventDefault();
+      if ((e.key === 'y' || e.key === 'Y') && (e.ctrlKey || e.metaKey))
+        e.preventDefault();
+      if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey))
+        e.preventDefault();
+    });
+    useEventListener('mousemove', (e) => {
+      const containerClientRect =
+        workflowContainerRef.current?.getBoundingClientRect();
+
+      if (containerClientRect) {
+        workflowStore.setState({
+          mousePosition: {
+            pageX: e.clientX,
+            pageY: e.clientY,
+            elementX: e.clientX - containerClientRect.left,
+            elementY: e.clientY - containerClientRect.top,
+          },
+        });
+      }
+    });
+
     const {
       handleNodeDragStart,
       handleNodeDrag,
@@ -104,7 +142,9 @@ const Workflow: FC<WorkflowProps> = memo(
         className={`
           relative h-full w-full min-w-[960px] 
         `}
+        ref={workflowContainerRef}
       >
+        <CandidateNode />
         <Operator
           handleRedo={handleHistoryForward}
           handleUndo={handleHistoryBack}

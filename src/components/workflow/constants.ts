@@ -1,5 +1,6 @@
 import { BlockEnum } from './types';
 import StartNodeDefault from './nodes/start/default';
+import EndNodeDefault from './nodes/end/default';
 /* 该文件导出一些workflow的配置 */
 
 type NodesExtraData = {
@@ -37,12 +38,12 @@ export const NODES_INITIAL_DATA = {
     desc: '',
     ...StartNodeDefault.defaultValue,
   },
-  // [BlockEnum.End]: {
-  //   type: BlockEnum.End,
-  //   title: '',
-  //   desc: '',
-  //   ...EndNodeDefault.defaultValue,
-  // },
+  [BlockEnum.End]: {
+    type: BlockEnum.End,
+    title: '结束',
+    desc: '',
+    ...EndNodeDefault.defaultValue,
+  },
 };
 
 /** @name 节点额外数据 */
@@ -56,15 +57,15 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
     getAvailableNextNodes: StartNodeDefault.getAvailableNextNodes,
     checkValid: StartNodeDefault.checkValid,
   },
-  // [BlockEnum.End]: {
-  //   author: 'Dify',
-  //   about: '',
-  //   availablePrevNodes: [],
-  //   availableNextNodes: [],
-  //   getAvailablePrevNodes: EndNodeDefault.getAvailablePrevNodes,
-  //   getAvailableNextNodes: EndNodeDefault.getAvailableNextNodes,
-  //   checkValid: EndNodeDefault.checkValid,
-  // },
+  [BlockEnum.End]: {
+    author: 'Dify',
+    about: '',
+    availablePrevNodes: [],
+    availableNextNodes: [],
+    getAvailablePrevNodes: EndNodeDefault.getAvailablePrevNodes,
+    getAvailableNextNodes: EndNodeDefault.getAvailableNextNodes,
+    checkValid: EndNodeDefault.checkValid,
+  },
 };
 
 export const ITERATION_NODE_Z_INDEX = 1;

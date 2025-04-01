@@ -9,7 +9,6 @@ export type OperatorProps = {
   handleRedo: () => void;
 };
 
-/** @name 操作控件（包含了撤销、重做、缩放、控制等操作） */
 const Operator = ({ handleUndo, handleRedo }: OperatorProps) => {
   return (
     <>
@@ -33,4 +32,5 @@ const Operator = ({ handleUndo, handleRedo }: OperatorProps) => {
   );
 };
 
+/** @name 操作控件（包含了撤销、重做、缩放、控制等操作） */
 export default memo(Operator);

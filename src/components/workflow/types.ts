@@ -8,7 +8,7 @@ import type { NumberVarType as VarKindType } from './nodes/types';
 
 export enum BlockEnum {
   Start = 'start',
-  // End = 'end',
+  End = 'end',
   // Answer = 'answer',
   // LLM = 'llm',
   // KnowledgeRetrieval = 'knowledge-retrieval',
@@ -51,6 +51,25 @@ export enum VarType {
   arrayFile = 'array[file]',
   any = 'any',
 }
+
+export type Var = {
+  variable: string;
+  type: VarType;
+  children?: Var[]; // if type is obj, has the children struct
+  isParagraph?: boolean;
+  isSelect?: boolean;
+  options?: string[];
+  required?: boolean;
+  des?: string;
+  isException?: boolean;
+};
+
+export type NodeOutPutVar = {
+  nodeId: string;
+  title: string;
+  vars: Var[];
+  isStartNode?: boolean;
+};
 
 export enum ControlMode {
   Pointer = 'pointer',
@@ -266,4 +285,28 @@ export type Block = {
   type: BlockEnum;
   title: string;
   description?: string;
+};
+
+export type EnvironmentVariable = {
+  id: string;
+  name: string;
+  value: any;
+  value_type: 'string' | 'number' | 'secret';
+};
+
+export enum ChatVarType {
+  Number = 'number',
+  String = 'string',
+  Object = 'object',
+  ArrayString = 'array[string]',
+  ArrayNumber = 'array[number]',
+  ArrayObject = 'array[object]',
+}
+
+export type ConversationVariable = {
+  id: string;
+  name: string;
+  value_type: ChatVarType;
+  value: any;
+  description: string;
 };

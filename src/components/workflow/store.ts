@@ -8,9 +8,9 @@ import type {
   HelpLineVerticalPosition,
 } from './help-line/types';
 import type {
-  // ConversationVariable,
+  ConversationVariable,
   // Edge,
-  // EnvironmentVariable,
+  EnvironmentVariable,
   // HistoryWorkflowData,
   Node,
   // RunFile,
@@ -45,6 +45,21 @@ type Shape = {
     nodeId: string;
   };
   setNodeMenu: (nodeMenu: Shape['nodeMenu']) => void;
+  environmentVariables: EnvironmentVariable[];
+  setEnvironmentVariables: (
+    environmentVariables: EnvironmentVariable[],
+  ) => void;
+  conversationVariables: ConversationVariable[];
+  setConversationVariables: (
+    conversationVariables: ConversationVariable[],
+  ) => void;
+  mousePosition: {
+    pageX: number;
+    pageY: number;
+    elementX: number;
+    elementY: number;
+  };
+  setMousePosition: (mousePosition: Shape['mousePosition']) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -63,12 +78,20 @@ export const createWorkflowStore = () => {
     debouncedSyncWorkflowDraft: debounce((syncWorkflowDraft) => {
       syncWorkflowDraft();
     }, 5000),
-    candidateNode: undefined,
+    candidateNode: undefined, // 粘贴时节点数据（跟随鼠标的虚影效果）
     setCandidateNode: (candidateNode) => set(() => ({ candidateNode })),
     panelMenu: undefined,
     setPanelMenu: (panelMenu) => set(() => ({ panelMenu })),
     nodeMenu: undefined,
     setNodeMenu: (nodeMenu) => set(() => ({ nodeMenu })),
+    environmentVariables: [],
+    setEnvironmentVariables: (environmentVariables) =>
+      set(() => ({ environmentVariables })),
+    conversationVariables: [],
+    setConversationVariables: (conversationVariables) =>
+      set(() => ({ conversationVariables })),
+    mousePosition: { pageX: 0, pageY: 0, elementX: 0, elementY: 0 }, // 鼠标在当前react视口坐标
+    setMousePosition: (mousePosition) => set(() => ({ mousePosition })),
   }));
 };
 

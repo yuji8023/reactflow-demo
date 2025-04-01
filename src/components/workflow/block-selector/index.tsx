@@ -135,11 +135,13 @@ const NodeSelector: FC<NodeSelectorProps> = ({
             availableBlocksTypes={availableBlocksTypes}
             noBlocks={noBlocks}
           /> */}
-          <Blocks
-            searchText={searchText}
-            onSelect={onSelect}
-            availableBlocksTypes={availableBlocksTypes}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <Blocks
+              searchText={searchText}
+              onSelect={handleSelect}
+              availableBlocksTypes={availableBlocksTypes}
+            />
+          </div>
         </div>
       </PortalToFollowElemContent>
     </PortalToFollowElem>

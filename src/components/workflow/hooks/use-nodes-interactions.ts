@@ -323,7 +323,7 @@ export const useNodesInteractions = () => {
     [store, workflowStore, getNodesReadOnly],
   ); */
 
-  /* const handleNodeSelect = useCallback(
+  const handleNodeSelect = useCallback(
     (nodeId: string, cancelSelection?: boolean) => {
       const { getNodes, setNodes, edges, setEdges } = store.getState();
 
@@ -364,16 +364,16 @@ export const useNodesInteractions = () => {
       handleSyncWorkflowDraft();
     },
     [store, handleSyncWorkflowDraft],
-  ); */
+  );
 
-  /*  const handleNodeClick = useCallback<NodeMouseHandler>(
+  const handleNodeClick = useCallback<NodeMouseHandler>(
     (_, node) => {
       if (node.type === CUSTOM_ITERATION_START_NODE) return;
       if (node.type === CUSTOM_LOOP_START_NODE) return;
       handleNodeSelect(node.id);
     },
     [handleNodeSelect],
-  ); */
+  );
 
   /* const handleNodeConnect = useCallback<OnConnect>(
     ({ source, sourceHandle, target, targetHandle }) => {
@@ -1242,8 +1242,8 @@ export const useNodesInteractions = () => {
     handleNodeDragStop,
     // handleNodeEnter,
     // handleNodeLeave,
-    // handleNodeSelect,
-    // handleNodeClick,
+    handleNodeSelect,
+    handleNodeClick,
     // handleNodeConnect,
     // handleNodeConnectStart,
     // handleNodeConnectEnd,
