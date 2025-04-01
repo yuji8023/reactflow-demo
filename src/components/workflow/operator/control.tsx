@@ -11,7 +11,7 @@ import { useStore } from '../store';
 import { Divider } from 'antd';
 import AddBlock from './add-block';
 import TipPopup from './tip-popup';
-// import { useOperator } from './hooks';
+import { useOperator } from './hooks';
 import cn from '@/utils/classnames';
 import { AddNoteIcon, CursorIcon, HandIcon } from '../icons';
 
@@ -28,8 +28,7 @@ const Control = () => {
   const handleLayout = () => {};
 
   //TODO 待实现添加注释
-  // const { handleAddNote } = useOperator();
-  const handleAddNote = () => {};
+  const { handleAddNote } = useOperator();
 
   // TODO 待实现节点只读
   // const { nodesReadOnly, getNodesReadOnly } = useNodesReadOnly();

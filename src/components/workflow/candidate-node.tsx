@@ -11,7 +11,7 @@ import {
 import { CUSTOM_NODE } from './constants';
 // import { getIterationStartNode, getLoopStartNode } from './utils';
 import CustomNode from './nodes';
-// import CustomNoteNode from './note-node';
+import CustomNoteNode from './note-node';
 import { CUSTOM_NOTE_NODE } from './note-node/constants';
 import { BlockEnum } from './types';
 
@@ -89,9 +89,9 @@ const CandidateNode = () => {
       {candidateNode.type === CUSTOM_NODE && (
         <CustomNode {...(candidateNode as any)} />
       )}
-      {/* {candidateNode.type === CUSTOM_NOTE_NODE && (
+      {candidateNode.type === CUSTOM_NOTE_NODE && (
         <CustomNoteNode {...(candidateNode as any)} />
-      )} */}
+      )}
     </div>
   );
 };

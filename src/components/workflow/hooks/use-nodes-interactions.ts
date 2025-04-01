@@ -1517,6 +1517,73 @@ export const useNodesInteractions = () => {
     [getNodesReadOnly, handleNodesCopy, handleNodesPaste],
   );
 
+  const handleNodeResize = useCallback(
+    (nodeId: string, params: ResizeParamsWithDirection) => {
+      if (getNodesReadOnly()) return;
+
+      const { getNodes, setNodes } = store.getState();
+      const { x, y, width, height } = params;
+
+      const nodes = getNodes();
+      const currentNode = nodes.find((n) => n.id === nodeId)!;
+      const childrenNodes = nodes.filter(
+        (n) => currentNode.data._children?.includes(n.id),
+      );
+      let rightNode: Node;
+      let bottomNode: Node;
+
+      childrenNodes.forEach((n) => {
+        if (rightNode) {
+          if (n.position.x + n.width! > rightNode.position.x + rightNode.width!)
+            rightNode = n;
+        } else {
+          rightNode = n;
+        }
+        if (bottomNode) {
+          if (
+            n.position.y + n.height! >
+            bottomNode.position.y + bottomNode.height!
+          )
+            bottomNode = n;
+        } else {
+          bottomNode = n;
+        }
+      });
+
+      if (rightNode! && bottomNode!) {
+        const parentNode = nodes.find((n) => n.id === rightNode.parentId);
+        const paddingMap = LOOP_PADDING;
+        // parentNode?.data.type === BlockEnum.Iteration
+        //   ? ITERATION_PADDING
+        //   : LOOP_PADDING;
+
+        if (width < rightNode!.position.x + rightNode.width! + paddingMap.right)
+          return;
+        if (
+          height <
+          bottomNode.position.y + bottomNode.height! + paddingMap.bottom
+        )
+          return;
+      }
+      const newNodes = produce(nodes, (draft) => {
+        draft.forEach((n) => {
+          if (n.id === nodeId) {
+            n.data.width = width;
+            n.data.height = height;
+            n.width = width;
+            n.height = height;
+            n.position.x = x;
+            n.position.y = y;
+          }
+        });
+      });
+      setNodes(newNodes);
+      handleSyncWorkflowDraft();
+      saveStateToHistory(WorkflowHistoryEvent.NodeResize);
+    },
+    [getNodesReadOnly, store, handleSyncWorkflowDraft, saveStateToHistory],
+  );
+
   return {
     handleNodeDragStart,
     handleNodeDrag,
@@ -1538,7 +1605,7 @@ export const useNodesInteractions = () => {
     handleNodesPaste,
     handleNodesDuplicate,
     // handleNodesDelete,
-    // handleNodeResize,
+    handleNodeResize,
     // handleNodeDisconnect,
     // handleHistoryBack,
     // handleHistoryForward,

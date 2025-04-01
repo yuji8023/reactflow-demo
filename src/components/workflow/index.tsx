@@ -41,7 +41,9 @@ import {
   WORKFLOW_DATA_UPDATE,
   ITERATION_CHILDREN_Z_INDEX,
 } from './constants';
+import { CUSTOM_NOTE_NODE } from './note-node/constants';
 import CustomNode from './nodes';
+import CustomNoteNode from './note-node';
 import CustomEdge from './custom-edge';
 import CustomConnectionLine from './custom-connection-line';
 import HelpLine from './help-line';
@@ -59,6 +61,7 @@ type WorkflowProps = {
 
 const nodeTypes = {
   [CUSTOM_NODE]: CustomNode,
+  [CUSTOM_NOTE_NODE]: CustomNoteNode,
 };
 
 const edgeTypes = {

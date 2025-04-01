@@ -83,6 +83,10 @@ type Shape = {
   setClipboardElements: (clipboardElements: Node[]) => void;
   showImportDSLModal: boolean;
   setShowImportDSLModal: (showImportDSLModal: boolean) => void;
+  controlPromptEditorRerenderKey: number;
+  setControlPromptEditorRerenderKey: (
+    controlPromptEditorRerenderKey: number,
+  ) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -130,6 +134,9 @@ export const createWorkflowStore = () => {
     showImportDSLModal: false,
     setShowImportDSLModal: (showImportDSLModal) =>
       set(() => ({ showImportDSLModal })),
+    controlPromptEditorRerenderKey: 0, // @name 控制prompt编辑器重新渲染的key
+    setControlPromptEditorRerenderKey: (controlPromptEditorRerenderKey) =>
+      set(() => ({ controlPromptEditorRerenderKey })),
   }));
 };
 
