@@ -16,7 +16,7 @@ import {
   useStoreApi,
 } from 'reactflow';
 import { unionBy } from 'lodash-es';
-// import type { ToolDefaultValue } from '../block-selector/types';
+import type { ToolDefaultValue } from '../block-selector/types';
 import type { Edge, Node, OnNodeAdd } from '../types';
 import { BlockEnum } from '../types';
 import { useWorkflowStore } from '../store';
@@ -32,10 +32,10 @@ import {
   Y_OFFSET,
 } from '../constants';
 import {
-  // genNewNodeTitleFromOld,
+  genNewNodeTitleFromOld,
   generateNewNode,
   getNodesConnectedSourceOrTargetHandleIdsMap,
-  // getTopLeftNodePosition,
+  getTopLeftNodePosition,
 } from '../utils';
 import { CUSTOM_NOTE_NODE } from '../note-node/constants';
 import {
@@ -716,6 +716,88 @@ export const useNodesInteractions = () => {
     ],
   );
 
+  /** @name 更换节点 */
+  const handleNodeChange = useCallback(
+    (
+      currentNodeId: string,
+      nodeType: BlockEnum,
+      sourceHandle: string,
+      toolDefaultValue?: ToolDefaultValue,
+    ) => {
+      if (getNodesReadOnly()) return;
+
+      const { getNodes, setNodes, edges, setEdges } = store.getState();
+      const nodes = getNodes();
+      const currentNode = nodes.find((node) => node.id === currentNodeId)!;
+      const connectedEdges = getConnectedEdges([currentNode], edges);
+      const nodesWithSameType = nodes.filter(
+        (node) => node.data.type === nodeType,
+      );
+      const {
+        newNode: newCurrentNode,
+        newIterationStartNode,
+        newLoopStartNode,
+      } = generateNewNode({
+        data: {
+          ...NODES_INITIAL_DATA[nodeType],
+          ...(toolDefaultValue || {}),
+          _connectedSourceHandleIds: [],
+          _connectedTargetHandleIds: [],
+          selected: currentNode.data.selected,
+          isInIteration: currentNode.data.isInIteration,
+          isInLoop: currentNode.data.isInLoop,
+          iteration_id: currentNode.data.iteration_id,
+          loop_id: currentNode.data.loop_id,
+        },
+        position: {
+          x: currentNode.position.x,
+          y: currentNode.position.y,
+        },
+        parentId: currentNode.parentId,
+        extent: currentNode.extent,
+        zIndex: currentNode.zIndex,
+      });
+      const nodesConnectedSourceOrTargetHandleIdsMap =
+        getNodesConnectedSourceOrTargetHandleIdsMap(
+          [...connectedEdges.map((edge) => ({ type: 'remove', edge }))],
+          nodes,
+        );
+      const newNodes = produce(nodes, (draft) => {
+        draft.forEach((node) => {
+          node.data.selected = false;
+
+          if (nodesConnectedSourceOrTargetHandleIdsMap[node.id]) {
+            node.data = {
+              ...node.data,
+              ...nodesConnectedSourceOrTargetHandleIdsMap[node.id],
+            };
+          }
+        });
+        const index = draft.findIndex((node) => node.id === currentNodeId);
+
+        draft.splice(index, 1, newCurrentNode);
+        if (newIterationStartNode) draft.push(newIterationStartNode);
+        if (newLoopStartNode) draft.push(newLoopStartNode);
+      });
+      setNodes(newNodes);
+      const newEdges = produce(edges, (draft) => {
+        const filtered = draft.filter(
+          (edge) =>
+            !connectedEdges.find(
+              (connectedEdge) => connectedEdge.id === edge.id,
+            ),
+        );
+
+        return filtered;
+      });
+      setEdges(newEdges);
+      handleSyncWorkflowDraft();
+
+      saveStateToHistory(WorkflowHistoryEvent.NodeChange);
+    },
+    [getNodesReadOnly, store, handleSyncWorkflowDraft, saveStateToHistory],
+  );
+
   const handleNodeAdd = useCallback<OnNodeAdd>(
     (
       {
@@ -1267,6 +1349,174 @@ export const useNodesInteractions = () => {
     [workflowStore, handleNodeSelect],
   );
 
+  const handleNodesCopy = useCallback(
+    (nodeId?: string) => {
+      if (getNodesReadOnly()) return;
+
+      const { setClipboardElements } = workflowStore.getState();
+
+      const { getNodes } = store.getState();
+
+      const nodes = getNodes();
+
+      if (nodeId) {
+        // If nodeId is provided, copy that specific node
+        const nodeToCopy = nodes.find(
+          (node) =>
+            node.id === nodeId &&
+            node.data.type !== BlockEnum.Start &&
+            node.type !== CUSTOM_ITERATION_START_NODE &&
+            node.type !== CUSTOM_LOOP_START_NODE,
+        );
+        if (nodeToCopy) setClipboardElements([nodeToCopy]);
+      } else {
+        // If no nodeId is provided, fall back to the current behavior
+        const bundledNodes = nodes.filter(
+          (node) =>
+            node.data._isBundled &&
+            node.data.type !== BlockEnum.Start &&
+            !node.data.isInIteration &&
+            !node.data.isInLoop,
+        );
+
+        if (bundledNodes.length) {
+          setClipboardElements(bundledNodes);
+          return;
+        }
+
+        const selectedNode = nodes.find(
+          (node) => node.data.selected && node.data.type !== BlockEnum.Start,
+        );
+
+        if (selectedNode) setClipboardElements([selectedNode]);
+      }
+    },
+    [getNodesReadOnly, store, workflowStore],
+  );
+
+  const handleNodesPaste = useCallback(() => {
+    if (getNodesReadOnly()) return;
+
+    const { clipboardElements, mousePosition } = workflowStore.getState();
+
+    const { getNodes, setNodes, edges, setEdges } = store.getState();
+
+    const nodesToPaste: Node[] = [];
+    const edgesToPaste: Edge[] = [];
+    const nodes = getNodes();
+
+    if (clipboardElements.length) {
+      const { x, y } = getTopLeftNodePosition(clipboardElements);
+      const { screenToFlowPosition } = reactflow;
+      const currentPosition = screenToFlowPosition({
+        x: mousePosition.pageX,
+        y: mousePosition.pageY,
+      });
+      const offsetX = currentPosition.x - x;
+      const offsetY = currentPosition.y - y;
+      let idMapping: Record<string, string> = {};
+      clipboardElements.forEach((nodeToPaste, index) => {
+        const nodeType = nodeToPaste.data.type;
+
+        const { newNode, newIterationStartNode, newLoopStartNode } =
+          generateNewNode({
+            type: nodeToPaste.type,
+            data: {
+              ...NODES_INITIAL_DATA[nodeType],
+              ...nodeToPaste.data,
+              selected: false,
+              _isBundled: false,
+              _connectedSourceHandleIds: [],
+              _connectedTargetHandleIds: [],
+              title: genNewNodeTitleFromOld(nodeToPaste.data.title),
+            },
+            position: {
+              x: nodeToPaste.position.x + offsetX,
+              y: nodeToPaste.position.y + offsetY,
+            },
+            extent: nodeToPaste.extent,
+            zIndex: nodeToPaste.zIndex,
+          });
+        newNode.id = newNode.id + index;
+        // This new node is movable and can be placed anywhere
+        let newChildren: Node[] = [];
+        // if (nodeToPaste.data.type === BlockEnum.Iteration) {
+        //   newIterationStartNode!.parentId = newNode.id;
+        //   (newNode.data as IterationNodeType).start_node_id = newIterationStartNode!.id
+
+        //   const oldIterationStartNode = nodes
+        //     .find(n => n.parentId === nodeToPaste.id && n.type === CUSTOM_ITERATION_START_NODE)
+        //   idMapping[oldIterationStartNode!.id] = newIterationStartNode!.id
+
+        //   const { copyChildren, newIdMapping } = handleNodeIterationChildrenCopy(nodeToPaste.id, newNode.id, idMapping)
+        //   newChildren = copyChildren
+        //   idMapping = newIdMapping
+        //   newChildren.forEach((child) => {
+        //     newNode.data._children?.push(child.id)
+        //   })
+        //   newChildren.push(newIterationStartNode!)
+        // }
+
+        // if (nodeToPaste.data.type === BlockEnum.Loop) {
+        //   newLoopStartNode!.parentId = newNode.id;
+        //   (newNode.data as LoopNodeType).start_node_id = newLoopStartNode!.id
+
+        //   newChildren = handleNodeLoopChildrenCopy(nodeToPaste.id, newNode.id)
+        //   newChildren.forEach((child) => {
+        //     newNode.data._children?.push(child.id)
+        //   })
+        //   newChildren.push(newLoopStartNode!)
+        // }
+
+        nodesToPaste.push(newNode);
+
+        if (newChildren.length) nodesToPaste.push(...newChildren);
+      });
+
+      edges.forEach((edge) => {
+        const sourceId = idMapping[edge.source];
+        const targetId = idMapping[edge.target];
+
+        if (sourceId && targetId) {
+          const newEdge: Edge = {
+            ...edge,
+            id: `${sourceId}-${edge.sourceHandle}-${targetId}-${edge.targetHandle}`,
+            source: sourceId,
+            target: targetId,
+            data: {
+              ...edge.data,
+              _connectedNodeIsSelected: false,
+            },
+          };
+          edgesToPaste.push(newEdge);
+        }
+      });
+
+      setNodes([...nodes, ...nodesToPaste]);
+      setEdges([...edges, ...edgesToPaste]);
+      saveStateToHistory(WorkflowHistoryEvent.NodePaste);
+      handleSyncWorkflowDraft();
+    }
+  }, [
+    getNodesReadOnly,
+    workflowStore,
+    store,
+    reactflow,
+    saveStateToHistory,
+    handleSyncWorkflowDraft,
+    // handleNodeIterationChildrenCopy, handleNodeLoopChildrenCopy
+  ]);
+
+  const handleNodesDuplicate = useCallback(
+    (nodeId?: string) => {
+      if (getNodesReadOnly()) return;
+
+      handleNodesCopy(nodeId);
+      handleNodesPaste();
+    },
+    [getNodesReadOnly, handleNodesCopy, handleNodesPaste],
+  );
+
   return {
     handleNodeDragStart,
     handleNodeDrag,
@@ -1279,14 +1529,14 @@ export const useNodesInteractions = () => {
     handleNodeConnectStart,
     handleNodeConnectEnd,
     handleNodeDelete,
-    // handleNodeChange,
+    handleNodeChange,
     handleNodeAdd,
     // handleNodeCancelRunningStatus,
     // handleNodesCancelSelected,
     handleNodeContextMenu,
-    // handleNodesCopy,
-    // handleNodesPaste,
-    // handleNodesDuplicate,
+    handleNodesCopy,
+    handleNodesPaste,
+    handleNodesDuplicate,
     // handleNodesDelete,
     // handleNodeResize,
     // handleNodeDisconnect,

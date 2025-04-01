@@ -24,12 +24,14 @@ import 'reactflow/dist/style.css';
 import Loading from '@/components/base/loading';
 import './style.css';
 import Operator from './operator';
+import Header from './header';
 import { WorkflowContextProvider } from './context';
 import { useEventEmitterContextContext } from './context/event-emitter';
 import {
   useWorkflowInit,
   useNodesInteractions,
   useEdgesInteractions,
+  usePanelInteractions,
 } from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
@@ -44,6 +46,8 @@ import CustomEdge from './custom-edge';
 import CustomConnectionLine from './custom-connection-line';
 import HelpLine from './help-line';
 import CandidateNode from './candidate-node';
+import PanelContextmenu from './panel-contextmenu';
+import NodeContextmenu from './node-contextmenu';
 import { useStore, useWorkflowStore } from './store';
 import { initialEdges, initialNodes } from './utils';
 
@@ -138,6 +142,10 @@ const Workflow: FC<WorkflowProps> = memo(
       // handleHistoryBack,
       // handleHistoryForward,
     } = useNodesInteractions();
+    const {
+      handlePaneContextMenu,
+      // handlePaneContextmenuCancel,
+    } = usePanelInteractions();
 
     const { handleEdgeEnter, handleEdgeLeave, handleEdgesChange } =
       useEdgesInteractions();
@@ -159,10 +167,13 @@ const Workflow: FC<WorkflowProps> = memo(
         ref={workflowContainerRef}
       >
         <CandidateNode />
+        <Header />
         <Operator
           handleRedo={handleHistoryForward}
           handleUndo={handleHistoryBack}
         />
+        <PanelContextmenu />
+        <NodeContextmenu />
         <HelpLine />
         <ReactFlow
           nodeTypes={nodeTypes}
@@ -182,6 +193,7 @@ const Workflow: FC<WorkflowProps> = memo(
           onEdgeMouseEnter={handleEdgeEnter}
           onEdgeMouseLeave={handleEdgeLeave}
           onEdgesChange={handleEdgesChange}
+          onPaneContextMenu={handlePaneContextMenu}
           // TODO: add edge context menu
           connectionLineComponent={CustomConnectionLine}
           connectionLineContainerStyle={{ zIndex: ITERATION_CHILDREN_Z_INDEX }}

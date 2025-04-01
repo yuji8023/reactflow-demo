@@ -530,3 +530,38 @@ export const getParallelInfo = (
     hasAbnormalEdges,
   };
 };
+
+export const canRunBySingle = (nodeType: BlockEnum) => {
+  return false;
+};
+
+/** @description 取节点数组中左上角节点的位置 */
+export const getTopLeftNodePosition = (nodes: Node[]) => {
+  let minX = Infinity;
+  let minY = Infinity;
+
+  nodes.forEach((node) => {
+    if (node.position.x < minX) minX = node.position.x;
+
+    if (node.position.y < minY) minY = node.position.y;
+  });
+
+  return {
+    x: minX,
+    y: minY,
+  };
+};
+
+/** @name 根据旧的节点标题生成新的节点标题 */
+export const genNewNodeTitleFromOld = (oldTitle: string) => {
+  const regex = /^(.+?)\s*\((\d+)\)\s*$/;
+  const match = oldTitle.match(regex);
+
+  if (match) {
+    const title = match[1];
+    const num = Number.parseInt(match[2], 10);
+    return `${title} (${num + 1})`;
+  } else {
+    return `${oldTitle} (1)`;
+  }
+};

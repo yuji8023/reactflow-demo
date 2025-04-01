@@ -79,6 +79,10 @@ type Shape = {
   setEnteringNodePayload: (
     enteringNodePayload?: Shape['enteringNodePayload'],
   ) => void;
+  clipboardElements: Node[];
+  setClipboardElements: (clipboardElements: Node[]) => void;
+  showImportDSLModal: boolean;
+  setShowImportDSLModal: (showImportDSLModal: boolean) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -120,6 +124,12 @@ export const createWorkflowStore = () => {
     enteringNodePayload: undefined, // @name 连接线相关xian 的节点信息
     setEnteringNodePayload: (enteringNodePayload) =>
       set(() => ({ enteringNodePayload })),
+    clipboardElements: [], // 剪贴板中暂存的工作流元素
+    setClipboardElements: (clipboardElements) =>
+      set(() => ({ clipboardElements })),
+    showImportDSLModal: false,
+    setShowImportDSLModal: (showImportDSLModal) =>
+      set(() => ({ showImportDSLModal })),
   }));
 };
 
