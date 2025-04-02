@@ -25,6 +25,7 @@ import Loading from '@/components/base/loading';
 import './style.css';
 import Operator from './operator';
 import Header from './header';
+import Panel from './panel';
 import { WorkflowContextProvider } from './context';
 import { useEventEmitterContextContext } from './context/event-emitter';
 import {
@@ -171,6 +172,7 @@ const Workflow: FC<WorkflowProps> = memo(
       >
         <CandidateNode />
         <Header />
+        <Panel />
         <Operator
           handleRedo={handleHistoryForward}
           handleUndo={handleHistoryBack}

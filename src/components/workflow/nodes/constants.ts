@@ -3,7 +3,7 @@ import { BlockEnum } from '../types';
 import StartNode from './start/node';
 import EndNode from './end/node';
 import MiddleNode from './middle/node';
-// import StartPanel from './start/panel';
+import StartPanel from './start/panel';
 
 export const CUSTOM_LOOP_START_NODE = 'custom-loop-start';
 
@@ -16,7 +16,9 @@ export const NodeComponentMap: Record<string, ComponentType<any>> = {
 };
 
 export const PanelComponentMap: Record<string, ComponentType<any>> = {
-  // [BlockEnum.Start]: StartPanel,
+  [BlockEnum.Start]: StartPanel,
+  [BlockEnum.End]: StartPanel,
+  [BlockEnum.Middle]: StartPanel,
 };
 
 export const SUB_VARIABLES = [

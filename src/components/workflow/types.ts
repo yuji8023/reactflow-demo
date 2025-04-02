@@ -187,6 +187,11 @@ export type Node<T = {}> = ReactFlowNode<CommonNodeType<T>>;
 
 export type NodeProps<T = unknown> = { id: string; data: CommonNodeType<T> };
 
+export type NodePanelProps<T> = {
+  id: string;
+  data: CommonNodeType<T>;
+};
+
 export type NodeDefault<T> = {
   defaultValue: Partial<T>;
   getAvailablePrevNodes: (isChatMode: boolean) => BlockEnum[];

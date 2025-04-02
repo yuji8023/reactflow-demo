@@ -20,6 +20,7 @@ import type {
 } from './types';
 
 type Shape = {
+  panelWidth: number;
   controlMode: 'pointer' | 'hand';
   setControlMode: (controlMode: Shape['controlMode']) => void;
   nodeAnimation: boolean;
@@ -87,9 +88,14 @@ type Shape = {
   setControlPromptEditorRerenderKey: (
     controlPromptEditorRerenderKey: number,
   ) => void;
+  isRestoring: boolean;
+  setIsRestoring: (isRestoring: boolean) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
+    panelWidth: localStorage.getItem('workflow-node-panel-width')
+      ? Number.parseFloat(localStorage.getItem('workflow-node-panel-width')!)
+      : 420,
     controlMode: 'pointer',
     setControlMode: (controlMode) => set(() => ({ controlMode })),
     nodeAnimation: false,
@@ -137,6 +143,8 @@ export const createWorkflowStore = () => {
     controlPromptEditorRerenderKey: 0, // @name 控制prompt编辑器重新渲染的key
     setControlPromptEditorRerenderKey: (controlPromptEditorRerenderKey) =>
       set(() => ({ controlPromptEditorRerenderKey })),
+    isRestoring: false,
+    setIsRestoring: (isRestoring) => set(() => ({ isRestoring })),
   }));
 };
 

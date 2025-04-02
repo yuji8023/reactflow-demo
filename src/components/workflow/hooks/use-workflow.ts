@@ -44,13 +44,13 @@ export const useWorkflow = () => {
   // const appId = useStore((s) => s.appId);
   const nodesExtraData = useNodesExtraData();
   // const { data: workflowConfig } = useWorkflowConfig();
-  // const setPanelWidth = useCallback(
-  //   (width: number) => {
-  //     localStorage.setItem('workflow-node-panel-width', `${width}`);
-  //     workflowStore.setState({ panelWidth: width });
-  //   },
-  //   [workflowStore],
-  // );
+  const setPanelWidth = useCallback(
+    (width: number) => {
+      localStorage.setItem('workflow-node-panel-width', `${width}`);
+      workflowStore.setState({ panelWidth: width });
+    },
+    [workflowStore],
+  );
 
   /* const getTreeLeafNodes = useCallback(
     (nodeId: string) => {
@@ -425,7 +425,7 @@ export const useWorkflow = () => {
   );
 
   return {
-    // setPanelWidth,
+    setPanelWidth,
     // getTreeLeafNodes,
     getBeforeNodesInSameBranch,
     // getBeforeNodesInSameBranchIncludeParent,
