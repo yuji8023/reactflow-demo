@@ -4,6 +4,7 @@ import {
   getIncomers,
   getOutgoers,
 } from 'reactflow';
+import dagre from '@dagrejs/dagre';
 import type {
   Edge,
   // InputVar,
@@ -564,4 +565,38 @@ export const genNewNodeTitleFromOld = (oldTitle: string) => {
   } else {
     return `${oldTitle} (1)`;
   }
+};
+
+export const getLayoutByDagre = (originNodes: Node[], originEdges: Edge[]) => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  const nodes = cloneDeep(originNodes).filter(
+    (node) => !node.parentId && node.type === CUSTOM_NODE,
+  );
+  const edges = cloneDeep(originEdges).filter(
+    (edge) => !edge.data?.isInIteration && !edge.data?.isInLoop,
+  );
+  dagreGraph.setGraph({
+    rankdir: 'LR',
+    align: 'UL',
+    nodesep: 40,
+    ranksep: 60,
+    ranker: 'tight-tree',
+    marginx: 30,
+    marginy: 200,
+  });
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, {
+      width: node.width!,
+      height: node.height!,
+    });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  return dagreGraph;
 };

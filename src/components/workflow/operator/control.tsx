@@ -4,7 +4,7 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import {
   useNodesReadOnly,
   useWorkflowMoveMode,
-  // useWorkflowOrganize,
+  useWorkflowOrganize,
 } from '../hooks';
 import { ControlMode } from '../types';
 import { useStore } from '../store';
@@ -20,17 +20,12 @@ const Control = () => {
 
   const { handleModePointer, handleModeHand } = useWorkflowMoveMode();
 
-  //TODO 待实现整理节点
-  // const { handleLayout } = useWorkflowOrganize();
-  const handleLayout = () => {};
+  const { handleLayout } = useWorkflowOrganize();
 
   //TODO 待实现添加注释
   const { handleAddNote } = useOperator();
 
-  // TODO 待实现节点只读
-  // const { nodesReadOnly, getNodesReadOnly } = useNodesReadOnly();
-  const nodesReadOnly = false;
-  const getNodesReadOnly = () => false;
+  const { nodesReadOnly, getNodesReadOnly } = useNodesReadOnly();
 
   const addNote = (e: MouseEvent<HTMLDivElement>) => {
     if (getNodesReadOnly()) return;
