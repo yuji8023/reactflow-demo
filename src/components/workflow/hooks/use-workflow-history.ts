@@ -63,7 +63,7 @@ export const useWorkflowHistory = () => {
     debounce((event: WorkflowHistoryEvent) => {
       workflowHistoryStore.setState({
         workflowHistoryEvent: event,
-        nodes: store.getState().nodes,
+        nodes: store.getState().getNodes(),
         edges: store.getState().edges,
       });
     }, 500),

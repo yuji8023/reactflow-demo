@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { memo, useEffect, useState } from 'react';
 import { RollbackOutlined } from '@ant-design/icons';
-import TipPopup from '../operator/tip-popup';
+import TipPopup from './tip-popup';
 import { useWorkflowHistoryStore } from '../workflow-history-store';
 // import { useNodesReadOnly } from '@/app/components/workflow/hooks';
+import ViewWorkflowHistory from './view-workflow-history';
 import classNames from '@/utils/classnames';
 import { Divider } from 'antd';
 
@@ -56,6 +57,8 @@ const UndoRedo: FC<UndoRedoProps> = ({ handleUndo, handleRedo }) => {
           <RollbackOutlined className="h-4 w-4 rotate-180 scale-y-[-1]" />
         </div>
       </TipPopup>
+      <Divider type="vertical" className="mx-0.5 h-3.5" />
+      <ViewWorkflowHistory />
     </div>
   );
 };

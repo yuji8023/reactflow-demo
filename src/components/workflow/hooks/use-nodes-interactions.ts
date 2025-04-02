@@ -47,13 +47,13 @@ import {
 // import type { VariableAssignerNodeType } from '../nodes/variable-assigner/types';
 // import { useNodeIterationInteractions } from '../nodes/iteration/use-interactions';
 // import { useNodeLoopInteractions } from '../nodes/loop/use-interactions';
-// import { useWorkflowHistoryStore } from '../workflow-history-store';
+import { useWorkflowHistoryStore } from '../workflow-history-store';
 import { useNodesSyncDraft } from './use-nodes-sync-draft';
 import { useHelpline } from './use-helpline';
 import {
   useNodesReadOnly,
   useWorkflow,
-  // useWorkflowReadOnly,
+  useWorkflowReadOnly,
 } from './use-workflow';
 import {
   WorkflowHistoryEvent,
@@ -64,11 +64,11 @@ export const useNodesInteractions = () => {
   const store = useStoreApi();
   const workflowStore = useWorkflowStore();
   const reactflow = useReactFlow();
-  // const { store: workflowHistoryStore } = useWorkflowHistoryStore();
+  const { store: workflowHistoryStore } = useWorkflowHistoryStore();
   const { handleSyncWorkflowDraft } = useNodesSyncDraft();
   const { checkNestedParallelLimit, getAfterNodesInSameBranch } = useWorkflow();
   const { getNodesReadOnly } = useNodesReadOnly();
-  // const { getWorkflowReadOnly } = useWorkflowReadOnly();
+  const { getWorkflowReadOnly } = useWorkflowReadOnly();
   const { handleSetHelpline } = useHelpline();
   // const { handleNodeIterationChildDrag, handleNodeIterationChildrenCopy } = useNodeIterationInteractions();
   // const { handleNodeLoopChildDrag, handleNodeLoopChildrenCopy } = useNodeLoopInteractions();
@@ -798,6 +798,7 @@ export const useNodesInteractions = () => {
     [getNodesReadOnly, store, handleSyncWorkflowDraft, saveStateToHistory],
   );
 
+  /** @name 添加节点 */
   const handleNodeAdd = useCallback<OnNodeAdd>(
     (
       {
@@ -1319,6 +1320,33 @@ export const useNodesInteractions = () => {
     ],
   );
 
+  /** @name 取消执行事件处理器 */
+  const handleNodeCancelRunningStatus = useCallback(() => {
+    const { getNodes, setNodes } = store.getState();
+
+    const nodes = getNodes();
+    const newNodes = produce(nodes, (draft) => {
+      draft.forEach((node) => {
+        node.data._runningStatus = undefined;
+        node.data._waitingRun = false;
+      });
+    });
+    setNodes(newNodes);
+  }, [store]);
+
+  /** @name 节点取消选中事件处理器 */
+  const handleNodesCancelSelected = useCallback(() => {
+    const { getNodes, setNodes } = store.getState();
+
+    const nodes = getNodes();
+    const newNodes = produce(nodes, (draft) => {
+      draft.forEach((node) => {
+        node.data.selected = false;
+      });
+    });
+    setNodes(newNodes);
+  }, [store]);
+
   /** @name 节点右键菜单事件处理器 */
   const handleNodeContextMenu = useCallback(
     (e: MouseEvent, node: Node) => {
@@ -1517,6 +1545,33 @@ export const useNodesInteractions = () => {
     [getNodesReadOnly, handleNodesCopy, handleNodesPaste],
   );
 
+  /** @name 删除节点 */
+  const handleNodesDelete = useCallback(() => {
+    if (getNodesReadOnly()) return;
+
+    const { getNodes, edges } = store.getState();
+
+    const nodes = getNodes();
+    const bundledNodes = nodes.filter(
+      (node) => node.data._isBundled && node.data.type !== BlockEnum.Start,
+    );
+
+    if (bundledNodes.length) {
+      bundledNodes.forEach((node) => handleNodeDelete(node.id));
+
+      return;
+    }
+
+    const edgeSelected = edges.some((edge) => edge.selected);
+    if (edgeSelected) return;
+
+    const selectedNode = nodes.find(
+      (node) => node.data.selected && node.data.type !== BlockEnum.Start,
+    );
+
+    if (selectedNode) handleNodeDelete(selectedNode.id);
+  }, [store, getNodesReadOnly, handleNodeDelete]);
+
   const handleNodeResize = useCallback(
     (nodeId: string, params: ResizeParamsWithDirection) => {
       if (getNodesReadOnly()) return;
@@ -1584,6 +1639,86 @@ export const useNodesInteractions = () => {
     [getNodesReadOnly, store, handleSyncWorkflowDraft, saveStateToHistory],
   );
 
+  /** @name 节点断开连接 */
+  const handleNodeDisconnect = useCallback(
+    (nodeId: string) => {
+      if (getNodesReadOnly()) return;
+
+      const { getNodes, setNodes, edges, setEdges } = store.getState();
+      const nodes = getNodes();
+      const currentNode = nodes.find((node) => node.id === nodeId)!;
+      const connectedEdges = getConnectedEdges([currentNode], edges);
+      const nodesConnectedSourceOrTargetHandleIdsMap =
+        getNodesConnectedSourceOrTargetHandleIdsMap(
+          connectedEdges.map((edge) => ({ type: 'remove', edge })),
+          nodes,
+        );
+      const newNodes = produce(nodes, (draft: Node[]) => {
+        draft.forEach((node) => {
+          if (nodesConnectedSourceOrTargetHandleIdsMap[node.id]) {
+            node.data = {
+              ...node.data,
+              ...nodesConnectedSourceOrTargetHandleIdsMap[node.id],
+            };
+          }
+        });
+      });
+      setNodes(newNodes);
+      const newEdges = produce(edges, (draft) => {
+        return draft.filter(
+          (edge) =>
+            !connectedEdges.find(
+              (connectedEdge) => connectedEdge.id === edge.id,
+            ),
+        );
+      });
+      setEdges(newEdges);
+      handleSyncWorkflowDraft();
+      saveStateToHistory(WorkflowHistoryEvent.EdgeDelete);
+    },
+    [store, getNodesReadOnly, handleSyncWorkflowDraft, saveStateToHistory],
+  );
+
+  /** @name 历史回退 */
+  const handleHistoryBack = useCallback(() => {
+    if (getNodesReadOnly() || getWorkflowReadOnly()) return;
+
+    const { setEdges, setNodes } = store.getState();
+    undo();
+
+    const { edges, nodes } = workflowHistoryStore.getState();
+    if (edges.length === 0 && nodes.length === 0) return;
+
+    setEdges(edges);
+    setNodes(nodes);
+  }, [
+    store,
+    undo,
+    workflowHistoryStore,
+    getNodesReadOnly,
+    getWorkflowReadOnly,
+  ]);
+
+  /** @name 历史前进 */
+  const handleHistoryForward = useCallback(() => {
+    if (getNodesReadOnly() || getWorkflowReadOnly()) return;
+
+    const { setEdges, setNodes } = store.getState();
+    redo();
+
+    const { edges, nodes } = workflowHistoryStore.getState();
+    if (edges.length === 0 && nodes.length === 0) return;
+
+    setEdges(edges);
+    setNodes(nodes);
+  }, [
+    redo,
+    store,
+    workflowHistoryStore,
+    getNodesReadOnly,
+    getWorkflowReadOnly,
+  ]);
+
   return {
     handleNodeDragStart,
     handleNodeDrag,
@@ -1598,16 +1733,16 @@ export const useNodesInteractions = () => {
     handleNodeDelete,
     handleNodeChange,
     handleNodeAdd,
-    // handleNodeCancelRunningStatus,
-    // handleNodesCancelSelected,
+    handleNodeCancelRunningStatus,
+    handleNodesCancelSelected,
     handleNodeContextMenu,
     handleNodesCopy,
     handleNodesPaste,
     handleNodesDuplicate,
-    // handleNodesDelete,
+    handleNodesDelete,
     handleNodeResize,
-    // handleNodeDisconnect,
-    // handleHistoryBack,
-    // handleHistoryForward,
+    handleNodeDisconnect,
+    handleHistoryBack,
+    handleHistoryForward,
   };
 };

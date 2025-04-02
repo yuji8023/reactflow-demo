@@ -153,8 +153,8 @@ const Workflow: FC<WorkflowProps> = memo(
       handleNodeConnectStart,
       handleNodeConnectEnd,
       handleNodeContextMenu,
-      // handleHistoryBack,
-      // handleHistoryForward,
+      handleHistoryBack,
+      handleHistoryForward,
     } = useNodesInteractions();
     const {
       handlePaneContextMenu,
@@ -168,14 +168,6 @@ const Workflow: FC<WorkflowProps> = memo(
 
     const { handleSelectionStart, handleSelectionChange, handleSelectionDrag } =
       useSelectionInteractions();
-
-    const handleHistoryForward = () => {
-      console.log('forward');
-    };
-
-    const handleHistoryBack = () => {
-      console.log('back');
-    };
 
     return (
       <div
