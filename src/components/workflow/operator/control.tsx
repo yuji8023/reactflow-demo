@@ -1,11 +1,11 @@
 import type { MouseEvent } from 'react';
 import { memo } from 'react';
 import { AppstoreOutlined } from '@ant-design/icons';
-/* import {
+import {
   useNodesReadOnly,
   useWorkflowMoveMode,
-  useWorkflowOrganize,
-} from '../hooks'; */
+  // useWorkflowOrganize,
+} from '../hooks';
 import { ControlMode } from '../types';
 import { useStore } from '../store';
 import { Divider } from 'antd';
@@ -18,10 +18,7 @@ import { AddNoteIcon, CursorIcon, HandIcon } from '../icons';
 const Control = () => {
   const controlMode = useStore((s) => s.controlMode);
 
-  //TODO 待实现模式改变
-  // const { handleModePointer, handleModeHand } = useWorkflowMoveMode();
-  const handleModePointer = () => {};
-  const handleModeHand = () => {};
+  const { handleModePointer, handleModeHand } = useWorkflowMoveMode();
 
   //TODO 待实现整理节点
   // const { handleLayout } = useWorkflowOrganize();

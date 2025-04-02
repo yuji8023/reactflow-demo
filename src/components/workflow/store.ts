@@ -96,8 +96,14 @@ export const createWorkflowStore = () => {
     panelWidth: localStorage.getItem('workflow-node-panel-width')
       ? Number.parseFloat(localStorage.getItem('workflow-node-panel-width')!)
       : 420,
-    controlMode: 'pointer',
-    setControlMode: (controlMode) => set(() => ({ controlMode })),
+    controlMode:
+      localStorage.getItem('workflow-operation-mode') === 'pointer'
+        ? 'pointer'
+        : 'hand',
+    setControlMode: (controlMode) => {
+      set(() => ({ controlMode }));
+      localStorage.setItem('workflow-operation-mode', controlMode);
+    },
     nodeAnimation: false,
     setNodeAnimation: (nodeAnimation) => set(() => ({ nodeAnimation })),
     helpLineHorizontal: undefined,

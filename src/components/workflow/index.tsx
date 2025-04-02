@@ -12,6 +12,7 @@ import { useEventListener } from 'ahooks';
 import {
   ReactFlow,
   ReactFlowProvider,
+  SelectionMode,
   MiniMap,
   Controls,
   Background,
@@ -32,10 +33,15 @@ import {
   useWorkflowInit,
   useNodesInteractions,
   useEdgesInteractions,
+  useSelectionInteractions,
   usePanelInteractions,
+  useWorkflowReadOnly,
+  useNodesReadOnly,
+  useWorkflow,
 } from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
+import { ControlMode } from './types';
 import {
   CUSTOM_EDGE,
   CUSTOM_NODE,
@@ -76,6 +82,10 @@ const Workflow: FC<WorkflowProps> = memo(
     const reactflow = useReactFlow();
     const [nodes, setNodes] = useNodesState(originalNodes);
     const [edges, setEdges] = useEdgesState(originalEdges);
+    // 模式
+    const controlMode = useStore((s) => s.controlMode);
+    const { workflowReadOnly } = useWorkflowReadOnly();
+    const { nodesReadOnly } = useNodesReadOnly();
 
     useEffect(() => {
       setAutoFreeze(false);
@@ -151,8 +161,13 @@ const Workflow: FC<WorkflowProps> = memo(
       // handlePaneContextmenuCancel,
     } = usePanelInteractions();
 
+    const { isValidConnection } = useWorkflow();
+
     const { handleEdgeEnter, handleEdgeLeave, handleEdgesChange } =
       useEdgesInteractions();
+
+    const { handleSelectionStart, handleSelectionChange, handleSelectionDrag } =
+      useSelectionInteractions();
 
     const handleHistoryForward = () => {
       console.log('forward');
@@ -198,13 +213,30 @@ const Workflow: FC<WorkflowProps> = memo(
           onEdgeMouseEnter={handleEdgeEnter}
           onEdgeMouseLeave={handleEdgeLeave}
           onEdgesChange={handleEdgesChange}
+          onSelectionStart={handleSelectionStart}
+          onSelectionChange={handleSelectionChange}
+          onSelectionDrag={handleSelectionDrag}
           onPaneContextMenu={handlePaneContextMenu}
           // TODO: add edge context menu
           connectionLineComponent={CustomConnectionLine}
           connectionLineContainerStyle={{ zIndex: ITERATION_CHILDREN_Z_INDEX }}
+          // defaultViewport={viewport}
           multiSelectionKeyCode={null}
           deleteKeyCode={null}
+          nodesDraggable={!nodesReadOnly}
+          nodesConnectable={!nodesReadOnly}
+          nodesFocusable={!nodesReadOnly}
+          edgesFocusable={!nodesReadOnly}
+          panOnDrag={controlMode === ControlMode.Hand && !workflowReadOnly}
+          zoomOnPinch={!workflowReadOnly}
+          zoomOnScroll={!workflowReadOnly}
+          zoomOnDoubleClick={!workflowReadOnly}
+          isValidConnection={isValidConnection}
           selectionKeyCode={null}
+          selectionMode={SelectionMode.Partial}
+          selectionOnDrag={
+            controlMode === ControlMode.Pointer && !workflowReadOnly
+          }
           minZoom={0.25}
         >
           <Background

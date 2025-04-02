@@ -10,3 +10,5 @@ export * from './use-workflow-variables';
 export * from './use-edges-interactions';
 export * from './use-nodes-sync-draft';
 export * from './use-node-data-update';
+export * from './use-workflow-interactions';
+export * from './use-selection-interactions';

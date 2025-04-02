@@ -609,6 +609,25 @@ export const useWorkflowInit = () => {
   };
 };
 
+export const useWorkflowReadOnly = () => {
+  // const workflowStore = useWorkflowStore()
+  // const workflowRunningData = useStore(s => s.workflowRunningData)
+
+  // const getWorkflowReadOnly = useCallback(() => {
+  //   return workflowStore.getState().workflowRunningData?.result.status === WorkflowRunningStatus.Running
+  // }, [workflowStore])
+
+  const getWorkflowReadOnly = useCallback(() => {
+    return false;
+  }, []);
+
+  return {
+    // workflowReadOnly: workflowRunningData?.result.status === WorkflowRunningStatus.Running,
+    workflowReadOnly: false,
+    getWorkflowReadOnly,
+  };
+};
+
 export const useNodesReadOnly = () => {
   const getNodesReadOnly = useCallback(() => {
     return false;
