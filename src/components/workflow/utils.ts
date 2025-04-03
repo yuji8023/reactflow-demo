@@ -600,3 +600,20 @@ export const getLayoutByDagre = (originNodes: Node[], originEdges: Edge[]) => {
 
   return dagreGraph;
 };
+
+const specialKeysCodeMap: Record<string, string | undefined> = {
+  ctrl: 'meta',
+};
+/** @name 根据系统类型获取键盘按键对应的键值 */
+export const getKeyboardKeyCodeBySystem = (key: string) => {
+  if (isMac()) return specialKeysCodeMap[key] || key;
+
+  return key;
+};
+
+/** @name 判断事件是否在输入区域 */
+export const isEventTargetInputArea = (target: HTMLElement) => {
+  if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return true;
+
+  if (target.contentEditable === 'true') return true;
+};

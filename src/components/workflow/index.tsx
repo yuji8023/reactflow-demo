@@ -38,6 +38,7 @@ import {
   useWorkflowReadOnly,
   useNodesReadOnly,
   useWorkflow,
+  useShortcuts,
 } from './hooks';
 import { WorkflowHistoryProvider } from './workflow-history-store';
 import type { Edge, Node } from './types';
@@ -169,6 +170,8 @@ const Workflow: FC<WorkflowProps> = memo(
     const { handleSelectionStart, handleSelectionChange, handleSelectionDrag } =
       useSelectionInteractions();
 
+    useShortcuts();
+
     return (
       <div
         id="workflow-container"
@@ -213,6 +216,7 @@ const Workflow: FC<WorkflowProps> = memo(
           connectionLineComponent={CustomConnectionLine}
           connectionLineContainerStyle={{ zIndex: ITERATION_CHILDREN_Z_INDEX }}
           // defaultViewport={viewport}
+          defaultViewport={{ x: 100, y: 0, zoom: 1 }}
           multiSelectionKeyCode={null}
           deleteKeyCode={null}
           nodesDraggable={!nodesReadOnly}

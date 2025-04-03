@@ -90,6 +90,10 @@ type Shape = {
   ) => void;
   isRestoring: boolean;
   setIsRestoring: (isRestoring: boolean) => void;
+  showDebugAndPreviewPanel: boolean;
+  setShowDebugAndPreviewPanel: (showDebugAndPreviewPanel: boolean) => void;
+  showFeaturesPanel: boolean;
+  setShowFeaturesPanel: (showFeaturesPanel: boolean) => void;
 };
 export const createWorkflowStore = () => {
   return createStore<Shape>((set) => ({
@@ -151,6 +155,12 @@ export const createWorkflowStore = () => {
       set(() => ({ controlPromptEditorRerenderKey })),
     isRestoring: false,
     setIsRestoring: (isRestoring) => set(() => ({ isRestoring })),
+    showDebugAndPreviewPanel: false, // @name 是否显示调试和预览面板
+    setShowDebugAndPreviewPanel: (showDebugAndPreviewPanel) =>
+      set(() => ({ showDebugAndPreviewPanel })),
+    showFeaturesPanel: false, // @name 是否显示功能面板
+    setShowFeaturesPanel: (showFeaturesPanel) =>
+      set(() => ({ showFeaturesPanel })),
   }));
 };
 
