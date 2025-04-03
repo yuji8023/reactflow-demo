@@ -1,17 +1,17 @@
-import { memo, useEffect, useRef } from "react";
-import { useClickAway } from "ahooks";
-import { Divider } from "antd";
-import ShortcutsName from "./shortcuts-name";
-import { useStore } from "./store";
+import { memo, useEffect, useRef } from 'react';
+import { useClickAway } from 'ahooks';
+import { Divider, message } from 'antd';
+import ShortcutsName from './shortcuts-name';
+import { useStore } from './store';
 import {
   // useDSL,
   useNodesInteractions,
   usePanelInteractions,
   // useWorkflowStartRun,
-} from "./hooks";
-import AddBlock from "./operator/add-block";
-import { useOperator } from "./operator/hooks";
-import cn from "@/utils/classnames";
+} from './hooks';
+import AddBlock from './operator/add-block';
+import { useOperator } from './operator/hooks';
+import cn from '@/utils/classnames';
 
 const PanelContextmenu = () => {
   const ref = useRef(null);
@@ -24,7 +24,9 @@ const PanelContextmenu = () => {
   // const { handleStartWorkflowRun } = useWorkflowStartRun();
   const { handleAddNote } = useOperator();
   // const { exportCheck } = useDSL()
-  const exportCheck = () => {};
+  const exportCheck = () => {
+    message.info('导出 DSL');
+  };
 
   useEffect(() => {
     if (panelMenu) handleNodeContextmenuCancel();
@@ -86,10 +88,10 @@ const PanelContextmenu = () => {
       <div className="p-1">
         <div
           className={cn(
-            "flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary",
+            'flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary',
             !clipboardElements.length
-              ? "cursor-not-allowed opacity-50"
-              : "hover:bg-state-base-hover",
+              ? 'cursor-not-allowed opacity-50'
+              : 'hover:bg-state-base-hover',
           )}
           onClick={() => {
             if (clipboardElements.length) {
@@ -99,7 +101,7 @@ const PanelContextmenu = () => {
           }}
         >
           粘贴到这里
-          <ShortcutsName keys={["ctrl", "v"]} />
+          <ShortcutsName keys={['ctrl', 'v']} />
         </div>
       </div>
       <Divider className="m-0" />
@@ -112,7 +114,10 @@ const PanelContextmenu = () => {
         </div>
         <div
           className="flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover"
-          onClick={() => setShowImportDSLModal(true)}
+          onClick={() => {
+            message.info('导入 DSL');
+            setShowImportDSLModal(true);
+          }}
         >
           导入 DSL
         </div>
