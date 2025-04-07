@@ -617,3 +617,9 @@ export const isEventTargetInputArea = (target: HTMLElement) => {
 
   if (target.contentEditable === 'true') return true;
 };
+
+/** @name 判断节点是否是错误处理节点 */
+export const hasErrorHandleNode = (nodeType?: BlockEnum) => {
+  return false;
+  // return nodeType === BlockEnum.LLM || nodeType === BlockEnum.Tool || nodeType === BlockEnum.HttpRequest || nodeType === BlockEnum.Code
+};

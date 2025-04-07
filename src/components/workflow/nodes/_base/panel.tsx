@@ -3,7 +3,7 @@ import { cloneElement, memo, useCallback } from 'react';
 // import { RiCloseLine, RiPlayLargeLine } from '@remixicon/react';
 import { CloseOutlined } from '@ant-design/icons';
 // import { useShallow } from 'zustand/react/shallow';
-// import NextStep from './components/next-step';
+import NextStep from './components/next-step';
 import PanelOperator from './components/panel-operator';
 // import HelpLink from './components/help-link';
 import {
@@ -52,11 +52,11 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
   const { handleNodeSelect } = useNodesInteractions();
   // const { handleSyncWorkflowDraft } = useNodesSyncDraft();
   // const { nodesReadOnly } = useNodesReadOnly();
-  // const { availableNextBlocks } = useAvailableBlocks(
-  //   data.type,
-  //   data.isInIteration,
-  //   data.isInLoop,
-  // );
+  const { availableNextBlocks } = useAvailableBlocks(
+    data.type,
+    data.isInIteration,
+    data.isInLoop,
+  );
 
   const handleResize = useCallback(
     (width: number) => {
@@ -173,19 +173,17 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
             />
           )
         } */}
-        {/* {
-          !!availableNextBlocks.length && (
-            <div className='border-t-[0.5px] border-t-black/5 p-4'>
-              <div className='system-sm-semibold-uppercase mb-1 flex items-center text-text-secondary'>
-                {t('workflow.panel.nextStep').toLocaleUpperCase()}
-              </div>
-              <div className='system-xs-regular mb-2 text-text-tertiary'>
-                {t('workflow.panel.addNextStep')}
-              </div>
-              <NextStep selectedNode={{ id, data } as Node} />
+        {!!availableNextBlocks.length && (
+          <div className="border-t-[0.5px] border-t-black/5 p-4">
+            <div className="system-sm-semibold-uppercase mb-1 flex items-center text-text-secondary">
+              下一步
             </div>
-          )
-        } */}
+            <div className="system-xs-regular mb-2 text-text-tertiary">
+              添加此工作流程中的下一个节点
+            </div>
+            <NextStep selectedNode={{ id, data } as Node} />
+          </div>
+        )}
       </div>
     </div>
   );
