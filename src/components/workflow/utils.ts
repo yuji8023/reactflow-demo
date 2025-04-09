@@ -623,3 +623,14 @@ export const hasErrorHandleNode = (nodeType?: BlockEnum) => {
   return false;
   // return nodeType === BlockEnum.LLM || nodeType === BlockEnum.Tool || nodeType === BlockEnum.HttpRequest || nodeType === BlockEnum.Code
 };
+
+/** @name 判断节点是否是错误处理节点 */
+export const isExceptionVariable = (variable: string, nodeType?: BlockEnum) => {
+  if (
+    (variable === 'error_message' || variable === 'error_type') &&
+    hasErrorHandleNode(nodeType)
+  )
+    return true;
+
+  return false;
+};

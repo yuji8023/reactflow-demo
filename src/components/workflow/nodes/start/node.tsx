@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
-// import InputVarTypeIcon from '../_base/components/input-var-type-icon';
+import InputVarTypeIcon from '../_base/components/input-var-type-icon';
 import type { StartNodeType } from './types';
+import { VariableX } from '../../icons';
 // import { Variable02 } from '@/app/components/base/icons/src/vender/solid/development';
 import type { NodeProps } from '../../types';
 
@@ -11,36 +12,35 @@ const Node: FC<NodeProps<StartNodeType>> = ({ data }) => {
   if (!variables.length) return null;
 
   return (
-    // <div className="mb-1 px-3 py-1">
-    //   <div className="space-y-0.5">
-    //     {/* {variables.map((variable) => (
-    //       <div
-    //         key={variable.variable}
-    //         className="flex h-6 items-center justify-between space-x-1 rounded-md  bg-gray-100 px-1 text-xs font-normal text-gray-700"
-    //       >
-    //         <div className="flex w-0 grow items-center space-x-1">
-    //           <Variable02 className="h-3.5 w-3.5 shrink-0 text-primary-500" />
-    //           <span className="w-0 grow truncate text-xs font-normal text-gray-700">
-    //             {variable.variable}
-    //           </span>
-    //         </div>
+    <div className="mb-1 px-3 py-1">
+      <div className="space-y-0.5">
+        {variables.map((variable) => (
+          <div
+            key={variable.variable}
+            className="flex h-6 items-center justify-between space-x-1 rounded-md  bg-gray-100 px-1 text-xs font-normal text-gray-700"
+          >
+            <div className="flex w-0 grow items-center space-x-1">
+              <VariableX className="h-3.5 w-3.5 shrink-0 text-primary-500" />
+              <span className="mt-[-4px] w-0 grow truncate text-xs font-normal text-gray-700">
+                {variable.variable}
+              </span>
+            </div>
 
-    //         <div className="ml-1 flex items-center space-x-1">
-    //           {variable.required && (
-    //             <span className="text-xs font-normal uppercase text-gray-500">
-    //               必填
-    //             </span>
-    //           )}
-    //           <InputVarTypeIcon
-    //             type={variable.type}
-    //             className="h-3 w-3 text-gray-500"
-    //           />
-    //         </div>
-    //       </div>
-    //     ))} */}
-    //   </div>
-    // </div>
-    <></>
+            <div className="ml-1 flex items-center space-x-1">
+              {variable.required && (
+                <span className="text-xs font-normal uppercase text-gray-500">
+                  必填
+                </span>
+              )}
+              <InputVarTypeIcon
+                type={variable.type}
+                className="h-3 w-3 text-gray-500"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

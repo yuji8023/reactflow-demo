@@ -37,7 +37,8 @@ import type { FetchWorkflowDraftResponse } from '../types';
 // import { CUSTOM_LOOP_START_NODE } from '@/app/components/workflow/nodes/loop-start/constants'
 // import { useWorkflowConfig } from '@/service/use-workflow'
 // import { canFindTool } from '@/utils'
-
+export const CUSTOM_ITERATION_START_NODE = 'custom-iteration-start';
+export const CUSTOM_LOOP_START_NODE = 'custom-loop-start';
 export const useWorkflow = () => {
   const store = useStoreApi();
   const workflowStore = useWorkflowStore();
@@ -52,7 +53,7 @@ export const useWorkflow = () => {
     [workflowStore],
   );
 
-  /* const getTreeLeafNodes = useCallback(
+  const getTreeLeafNodes = useCallback(
     (nodeId: string) => {
       const { getNodes, edges } = store.getState();
       const nodes = getNodes();
@@ -95,7 +96,7 @@ export const useWorkflow = () => {
       });
     },
     [store],
-  ); */
+  );
 
   const getBeforeNodesInSameBranch = useCallback(
     (nodeId: string, newNodes?: Node[], newEdges?: Edge[]) => {
@@ -252,7 +253,8 @@ export const useWorkflow = () => {
     [store, getBeforeNodeById],
   ); */
 
-  /* const handleOutVarRenameChange = useCallback(
+  /** @name 变量重命名 */
+  const handleOutVarRenameChange = useCallback(
     (
       nodeId: string,
       oldValeSelector: ValueSelector,
@@ -274,7 +276,7 @@ export const useWorkflow = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [store],
-  ); */
+  );
 
   const isVarUsedInNodes = useCallback(
     (varSelector: ValueSelector) => {
@@ -426,11 +428,11 @@ export const useWorkflow = () => {
 
   return {
     setPanelWidth,
-    // getTreeLeafNodes,
+    getTreeLeafNodes,
     getBeforeNodesInSameBranch,
     // getBeforeNodesInSameBranchIncludeParent,
     getAfterNodesInSameBranch,
-    // handleOutVarRenameChange,
+    handleOutVarRenameChange,
     isVarUsedInNodes,
     removeUsedVarInNodes,
     isNodeVarsUsedInNodes,
@@ -638,4 +640,11 @@ export const useNodesReadOnly = () => {
     nodesReadOnly: false,
     getNodesReadOnly,
   };
+};
+
+export const useIsChatMode = () => {
+  return false;
+  // const appDetail = useAppStore(s => s.appDetail)
+
+  // return appDetail?.mode === 'advanced-chat'
 };

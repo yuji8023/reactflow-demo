@@ -16,6 +16,7 @@ import {
 import { VarBlockIcon } from '../../icons/block-icon';
 // import { Line3 } from '@/app/components/base/icons/src/public/common';
 // import { Variable02 } from '@/app/components/base/icons/src/vender/solid/development';
+import { VariableX } from '../../icons';
 // import {
 //   BubbleX,
 //   Env,
@@ -75,10 +76,13 @@ const Node: FC<NodeProps<EndNodeType>> = ({ id, data }) => {
                   <div className="max-w-[75px] truncate">
                     {node?.data.title}
                   </div>
-                  {/* <Line3 className="mr-0.5"></Line3> */}
+                  <span className="mr-1 text-xs text-slate-500">/</span>
                 </>
               )}
               <div className="flex items-center text-primary-600">
+                {!isEnv && !isChatVar && (
+                  <VariableX className="h-3.5 w-3.5 shrink-0 text-primary-500" />
+                )}
                 {/*   {!isEnv && !isChatVar && (
                   <Variable02 className="h-3.5 w-3.5 shrink-0 text-primary-500" />
                 )}
@@ -91,7 +95,7 @@ const Node: FC<NodeProps<EndNodeType>> = ({ id, data }) => {
 
                 <div
                   className={cn(
-                    'ml-0.5 max-w-[50px] truncate text-xs font-medium',
+                    'ml-0.5 mt-[-4px] max-w-[50px] truncate text-xs font-medium',
                     (isEnv || isChatVar) && '!max-w-[70px] text-gray-900',
                   )}
                 >

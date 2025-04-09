@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { memo, useCallback } from 'react';
 import { useWorkflowStore } from '../store';
 import { Button } from 'antd';
+import RunAndHistory from './run-and-history';
 // import { useWorkflowMode } from '../hooks';
 
 // import EditingTitle from './editing-title';
@@ -18,13 +19,9 @@ const Header: FC = () => {
         {/* {restoring && <RestoringTitle />} */}
       </div>
       <div className="flex items-center gap-2">
+        <RunAndHistory />
         {/* <VersionHistoryButton onClick={onStartRestoring} /> */}
-        <Button
-          className="text-xs"
-          type="primary"
-          size="small"
-          onClick={onPublish}
-        >
+        <Button className="text-xs" type="primary" onClick={onPublish}>
           发布
         </Button>
       </div>

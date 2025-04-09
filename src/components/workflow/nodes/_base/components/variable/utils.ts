@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { isArray } from 'lodash-es';
 import type { EndNodeType } from '../../../end/types';
 import {
   BlockEnum,
@@ -518,4 +519,9 @@ export const toNodeAvailableVars = ({
     beforeNodesOutputVars.unshift(iterationVar);
   } */
   return beforeNodesOutputVars;
+};
+
+export const getNodeInfoById = (nodes: any, id: string) => {
+  if (!isArray(nodes)) return;
+  return nodes.find((node: any) => node.id === id);
 };

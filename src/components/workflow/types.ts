@@ -218,6 +218,46 @@ export enum InputVarType {
   loop = 'loop', // loop input
 }
 
+export enum WorkflowRunningStatus {
+  Waiting = 'waiting',
+  Running = 'running',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+  Stopped = 'stopped',
+}
+
+export type WorkflowRunningData = {
+  task_id?: string;
+  message_id?: string;
+  conversation_id?: string;
+  result: {
+    sequence_number?: number;
+    workflow_id?: string;
+    inputs?: string;
+    process_data?: string;
+    outputs?: string;
+    status: string;
+    error?: string;
+    elapsed_time?: number;
+    total_tokens?: number;
+    created_at?: number;
+    created_by?: string;
+    finished_at?: number;
+    steps?: number;
+    showSteps?: boolean;
+    total_steps?: number;
+    files?: any[];
+    exceptions_count?: number;
+  };
+  tracing?: any[];
+};
+
+export type WorkflowDataUpdater = {
+  nodes: Node[];
+  edges: Edge[];
+  viewport: Viewport;
+};
+
 export type ValueSelector = string[]; // [nodeId, key | obj key path]
 
 export type InputVar = {
@@ -315,4 +355,17 @@ export type ConversationVariable = {
   value_type: ChatVarType;
   value: any;
   description: string;
+};
+
+export enum ChangeType {
+  changeVarName = 'changeVarName',
+  remove = 'remove',
+}
+
+export type MoreInfo = {
+  type: ChangeType;
+  payload?: {
+    beforeKey: string;
+    afterKey?: string;
+  };
 };

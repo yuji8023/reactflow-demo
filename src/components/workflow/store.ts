@@ -16,11 +16,20 @@ import type {
   Node,
   // RunFile,
   // ToolWithProvider,
-  // WorkflowRunningData,
+  WorkflowRunningData,
 } from './types';
+
+type PreviewRunningData = WorkflowRunningData & {
+  resultTabActive?: boolean;
+  resultText?: string;
+};
 
 type Shape = {
   panelWidth: number;
+  showSingleRunPanel: boolean;
+  setShowSingleRunPanel: (showSingleRunPanel: boolean) => void;
+  workflowRunningData?: PreviewRunningData;
+  setWorkflowRunningData: (workflowData: PreviewRunningData) => void;
   controlMode: 'pointer' | 'hand';
   setControlMode: (controlMode: Shape['controlMode']) => void;
   nodeAnimation: boolean;

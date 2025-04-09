@@ -156,7 +156,7 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
           </div>
         </div>
         <div>{cloneElement(children, { id, data })}</div>
-        <Divider />
+        {/* <Divider /> */}
         {/* {
           hasRetryNode(data.type) && (
             <RetryOnPanel

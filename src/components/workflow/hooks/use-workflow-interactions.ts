@@ -8,10 +8,7 @@ import {
   // DSL_EXPORT_CHECK,
   WORKFLOW_DATA_UPDATE,
 } from '../constants';
-import type {
-  Node,
-  // WorkflowDataUpdater
-} from '../types';
+import type { Node, WorkflowDataUpdater } from '../types';
 import { ControlMode } from '../types';
 import { getLayoutByDagre, initialEdges, initialNodes } from '../utils';
 import {
@@ -19,37 +16,41 @@ import {
   useSelectionInteractions,
   // useWorkflowReadOnly,
 } from '../hooks';
-// import { useEdgesInteractions } from './use-edges-interactions'
-// import { useNodesInteractions } from './use-nodes-interactions'
+import { useEdgesInteractions } from './use-edges-interactions';
+import { useNodesInteractions } from './use-nodes-interactions';
 import { useNodesSyncDraft } from './use-nodes-sync-draft';
 import {
   WorkflowHistoryEvent,
   useWorkflowHistory,
 } from './use-workflow-history';
-// import { useEventEmitterContextContext } from '@/context/event-emitter'
+import { useEventEmitterContextContext } from '../context/event-emitter';
 // import { fetchWorkflowDraft } from '@/service/workflow'
 // import { exportAppConfig } from '@/service/apps'
 // import { useToastContext } from '@/app/components/base/toast'
 // import { useStore as useAppStore } from '@/app/components/app/store'
 
-/* export const useWorkflowInteractions = () => {
-  const workflowStore = useWorkflowStore()
-  const { handleNodeCancelRunningStatus } = useNodesInteractions()
-  const { handleEdgeCancelRunningStatus } = useEdgesInteractions()
+export const useWorkflowInteractions = () => {
+  const workflowStore = useWorkflowStore();
+  const { handleNodeCancelRunningStatus } = useNodesInteractions();
+  const { handleEdgeCancelRunningStatus } = useEdgesInteractions();
 
   const handleCancelDebugAndPreviewPanel = useCallback(() => {
     workflowStore.setState({
       showDebugAndPreviewPanel: false,
       workflowRunningData: undefined,
-    })
-    handleNodeCancelRunningStatus()
-    handleEdgeCancelRunningStatus()
-  }, [workflowStore, handleNodeCancelRunningStatus, handleEdgeCancelRunningStatus])
+    });
+    handleNodeCancelRunningStatus();
+    handleEdgeCancelRunningStatus();
+  }, [
+    workflowStore,
+    handleNodeCancelRunningStatus,
+    handleEdgeCancelRunningStatus,
+  ]);
 
   return {
     handleCancelDebugAndPreviewPanel,
-  }
-} */
+  };
+};
 
 /** @description 指针模式、手模式切换 */
 export const useWorkflowMoveMode = () => {
@@ -203,30 +204,29 @@ export const useWorkflowOrganize = () => {
   }
 } */
 
-/* export const useWorkflowUpdate = () => {
-  const reactflow = useReactFlow()
-  const workflowStore = useWorkflowStore()
-  const { eventEmitter } = useEventEmitterContextContext()
+export const useWorkflowUpdate = () => {
+  const reactflow = useReactFlow();
+  const workflowStore = useWorkflowStore();
+  const { eventEmitter } = useEventEmitterContextContext();
 
-  const handleUpdateWorkflowCanvas = useCallback((payload: WorkflowDataUpdater) => {
-    const {
-      nodes,
-      edges,
-      viewport,
-    } = payload
-    const { setViewport } = reactflow
-    eventEmitter?.emit({
-      type: WORKFLOW_DATA_UPDATE,
-      payload: {
-        nodes: initialNodes(nodes, edges),
-        edges: initialEdges(edges, nodes),
-      },
-    } as any)
-    setViewport(viewport)
-  }, [eventEmitter, reactflow])
+  const handleUpdateWorkflowCanvas = useCallback(
+    (payload: WorkflowDataUpdater) => {
+      const { nodes, edges, viewport } = payload;
+      const { setViewport } = reactflow;
+      eventEmitter?.emit({
+        type: WORKFLOW_DATA_UPDATE,
+        payload: {
+          nodes: initialNodes(nodes, edges),
+          edges: initialEdges(edges, nodes),
+        },
+      } as any);
+      setViewport(viewport);
+    },
+    [eventEmitter, reactflow],
+  );
 
   const handleRefreshWorkflowDraft = useCallback(() => {
-    const {
+    /* const {
       appId,
       setSyncWorkflowDraftHash,
       setIsSyncingWorkflowDraft,
@@ -234,8 +234,8 @@ export const useWorkflowOrganize = () => {
       setEnvSecrets,
       setConversationVariables,
     } = workflowStore.getState()
-    setIsSyncingWorkflowDraft(true)
-    fetchWorkflowDraft(`/apps/${appId}/workflows/draft`).then((response) => {
+    setIsSyncingWorkflowDraft(true) */
+    /*  fetchWorkflowDraft(`/apps/${appId}/workflows/draft`).then((response) => {
       handleUpdateWorkflowCanvas(response.graph as WorkflowDataUpdater)
       setSyncWorkflowDraftHash(response.hash)
       setEnvSecrets((response.environment_variables || []).filter(env => env.value_type === 'secret').reduce((acc, env) => {
@@ -245,14 +245,14 @@ export const useWorkflowOrganize = () => {
       setEnvironmentVariables(response.environment_variables?.map(env => env.value_type === 'secret' ? { ...env, value: '[__HIDDEN__]' } : env) || [])
       // #TODO chatVar sync#
       setConversationVariables(response.conversation_variables || [])
-    }).finally(() => setIsSyncingWorkflowDraft(false))
-  }, [handleUpdateWorkflowCanvas, workflowStore])
+    }).finally(() => setIsSyncingWorkflowDraft(false)) */
+  }, [handleUpdateWorkflowCanvas, workflowStore]);
 
   return {
     handleUpdateWorkflowCanvas,
     handleRefreshWorkflowDraft,
-  }
-} */
+  };
+};
 
 /* export const useDSL = () => {
   const { t } = useTranslation()
