@@ -32,16 +32,15 @@ export const getNodeUsedVars = (node: Node): ValueSelector[] => {
   const { data } = node;
   const { type } = data;
   let res: ValueSelector[] = [];
-  switch (
-    type
-    // case 'end': {
-    //   res = (data as EndNodeType).outputs?.map((output: any) => {
-    //     return output.value_selector;
-    //   });
-    //   break;
-    // }
-  ) {
+  switch (type) {
+    case BlockEnum.End: {
+      res = (data as EndNodeType).outputs?.map((output) => {
+        return output.value_selector;
+      });
+      break;
+    }
   }
+
   return res || [];
 };
 
