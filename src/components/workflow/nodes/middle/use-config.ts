@@ -6,6 +6,7 @@ import { ChangeType } from '../../types';
 import type { MoreInfo } from '../../types';
 import useNodeCrud from '../_base/hooks/use-node-crud';
 import { useNodesReadOnly } from '../../hooks';
+import { branchNameCorrect } from './utils';
 
 const useConfig = (id: string, payload: MiddleNodeType) => {
   const { nodesReadOnly: readOnly } = useNodesReadOnly();
@@ -26,6 +27,18 @@ const useConfig = (id: string, payload: MiddleNodeType) => {
       }
 
       const newInputs = produce(inputs, (draft: any) => {
+        if (
+          moreInfo?.payload?.type === ChangeType.remove &&
+          draft._targetBranches
+        ) {
+          draft._targetBranches = branchNameCorrect(
+            draft._targetBranches.filter(
+              (branch: any) =>
+                branch.id !== moreInfo?.payload?.payload?.beforeKey,
+            ),
+          );
+        }
+
         draft.infos = newList;
       });
       setInputs(newInputs);
@@ -41,6 +54,23 @@ const useConfig = (id: string, payload: MiddleNodeType) => {
           info_id,
           content: `#${draft.infos.length + 1} 句柄`,
         });
+        if (draft._targetBranches) {
+          draft._targetBranches.push({
+            id: info_id,
+            name: `句柄 ${draft.infos.length + 1}`,
+          });
+          // const elseCaseIndex = draft._targetBranches.findIndex(branch => branch.id === 'false')
+          /* if (elseCaseIndex > -1) {
+            draft._targetBranches = branchNameCorrect([
+              ...draft._targetBranches.slice(0, elseCaseIndex),
+              {
+                id: case_id,
+                name: '',
+              },
+              ...draft._targetBranches.slice(elseCaseIndex),
+            ])
+          } */
+        }
       }
     });
     setInputs(newInputs);

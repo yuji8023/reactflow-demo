@@ -9,6 +9,7 @@ import type { MiddleNodeType } from './types';
 const nodeDefault: NodeDefault<MiddleNodeType> = {
   defaultValue: {
     infos: [],
+    _targetBranches: [{ id: 'source', name: '' }],
   },
   getAvailablePrevNodes() {
     return ALL_COMPLETION_AVAILABLE_BLOCKS.filter(
