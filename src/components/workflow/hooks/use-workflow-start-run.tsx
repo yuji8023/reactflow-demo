@@ -65,36 +65,12 @@ export const useWorkflowStartRun = () => {
     // doSyncWorkflowDraft,
   ]);
 
-  const handleWorkflowStartRunInChatflow = useCallback(async () => {
-    const {
-      showDebugAndPreviewPanel,
-      setShowDebugAndPreviewPanel,
-      // setHistoryWorkflowData,
-      // setShowEnvPanel,
-      // setShowChatVariablePanel,
-    } = workflowStore.getState();
-
-    // setShowEnvPanel(false);
-    // setShowChatVariablePanel(false);
-
-    if (showDebugAndPreviewPanel) handleCancelDebugAndPreviewPanel();
-    else setShowDebugAndPreviewPanel(true);
-
-    // setHistoryWorkflowData(undefined);
-  }, [workflowStore, handleCancelDebugAndPreviewPanel]);
-
   const handleStartWorkflowRun = useCallback(() => {
-    if (!isChatMode) handleWorkflowStartRunInWorkflow();
-    else handleWorkflowStartRunInChatflow();
-  }, [
-    isChatMode,
-    handleWorkflowStartRunInWorkflow,
-    handleWorkflowStartRunInChatflow,
-  ]);
+    handleWorkflowStartRunInWorkflow();
+  }, [isChatMode, handleWorkflowStartRunInWorkflow]);
 
   return {
     handleStartWorkflowRun,
     handleWorkflowStartRunInWorkflow,
-    handleWorkflowStartRunInChatflow,
   };
 };

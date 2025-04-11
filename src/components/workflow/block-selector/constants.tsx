@@ -20,6 +20,18 @@ export const BLOCKS: Block[] = [
     title: '过程',
     description: '',
   },
+  {
+    classification: BlockClassificationEnum.Default,
+    type: BlockEnum.AssignmentOnline,
+    title: '在线作业',
+    description: '',
+  },
+  {
+    classification: BlockClassificationEnum.Default,
+    type: BlockEnum.AssignmentOffline,
+    title: '线下作业',
+    description: '',
+  },
   /*   {
     classification: BlockClassificationEnum.Default,
     type: BlockEnum.LLM,

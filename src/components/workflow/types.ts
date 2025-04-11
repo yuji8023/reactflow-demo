@@ -10,6 +10,8 @@ export enum BlockEnum {
   Start = 'start',
   End = 'end',
   Middle = 'middle',
+  AssignmentOnline = 'assignment-online',
+  AssignmentOffline = 'assignment-offline',
   // Answer = 'answer',
   // LLM = 'llm',
   // KnowledgeRetrieval = 'knowledge-retrieval',

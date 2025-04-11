@@ -2,6 +2,7 @@ import { BlockEnum } from './types';
 import StartNodeDefault from './nodes/start/default';
 import EndNodeDefault from './nodes/end/default';
 import MiddleNodeDefault from './nodes/middle/default';
+import AssignmentNodeDefault from './nodes/assignment/default';
 /* 该文件导出一些workflow的配置 */
 
 type NodesExtraData = {
@@ -51,6 +52,19 @@ export const NODES_INITIAL_DATA = {
     desc: '',
     ...MiddleNodeDefault.defaultValue,
   },
+  [BlockEnum.AssignmentOnline]: {
+    type: BlockEnum.AssignmentOnline,
+    title: '在线作业',
+    desc: '在线作业流程',
+    ...AssignmentNodeDefault.defaultValue,
+  },
+  [BlockEnum.AssignmentOffline]: {
+    type: BlockEnum.AssignmentOffline,
+    title: '线下作业',
+    desc: '线下作业流程',
+    ...AssignmentNodeDefault.defaultValue,
+    status: 'offline',
+  },
 };
 
 /** @name 节点额外数据 */
@@ -81,6 +95,24 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
     getAvailablePrevNodes: MiddleNodeDefault.getAvailablePrevNodes,
     getAvailableNextNodes: MiddleNodeDefault.getAvailableNextNodes,
     checkValid: MiddleNodeDefault.checkValid,
+  },
+  [BlockEnum.AssignmentOnline]: {
+    author: 'yuji',
+    about: '定义一个在线作业类型',
+    availablePrevNodes: [],
+    availableNextNodes: [],
+    getAvailablePrevNodes: AssignmentNodeDefault.getAvailablePrevNodes,
+    getAvailableNextNodes: AssignmentNodeDefault.getAvailableNextNodes,
+    checkValid: AssignmentNodeDefault.checkValid,
+  },
+  [BlockEnum.AssignmentOffline]: {
+    author: 'yuji',
+    about: '定义一个线下作业类型',
+    availablePrevNodes: [],
+    availableNextNodes: [],
+    getAvailablePrevNodes: AssignmentNodeDefault.getAvailablePrevNodes,
+    getAvailableNextNodes: AssignmentNodeDefault.getAvailableNextNodes,
+    checkValid: AssignmentNodeDefault.checkValid,
   },
 };
 

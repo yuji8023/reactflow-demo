@@ -820,6 +820,12 @@ export const useNodesInteractions = () => {
         generateNewNode({
           data: {
             ...NODES_INITIAL_DATA[nodeType],
+            title:
+              nodesWithSameType.length > 0
+                ? `${NODES_INITIAL_DATA[nodeType].title} ${
+                    nodesWithSameType.length + 1
+                  }`
+                : NODES_INITIAL_DATA[nodeType].title,
             ...(toolDefaultValue || {}),
             selected: true,
             _showAddVariablePopup: false,
