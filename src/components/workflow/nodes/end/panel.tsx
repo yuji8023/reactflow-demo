@@ -16,7 +16,8 @@ const Panel: FC<NodePanelProps<EndNodeType>> = ({ id, data }) => {
   const outputs = inputs.outputs;
   return (
     <div className="mt-2">
-      <div className="space-y-4 px-4 pb-4">
+      <div className="h-8 w-full text-center text-gray-500">结束流程节点</div>
+      {/* <div className="space-y-4 px-4 pb-4">
         <Field
           title="输出变量"
           operations={
@@ -36,7 +37,7 @@ const Panel: FC<NodePanelProps<EndNodeType>> = ({ id, data }) => {
             onChange={handleVarListChange}
           />
         </Field>
-      </div>
+      </div> */}
     </div>
   );
 };

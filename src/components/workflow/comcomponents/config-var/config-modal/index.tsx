@@ -204,7 +204,7 @@ const ConfigModal: FC<IConfigModalProps> = ({
     <Modal
       title={isCreate ? '添加变量' : '编辑变量'}
       open={isShow}
-      onClose={onClose}
+      onCancel={onClose}
       footer={<ModalFoot onConfirm={handleConfirm} onCancel={onClose} />}
     >
       <div className="mb-8" ref={modalRef} tabIndex={-1}>

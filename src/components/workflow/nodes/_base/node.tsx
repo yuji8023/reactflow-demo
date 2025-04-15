@@ -18,6 +18,7 @@ import NodeControl from './components/node-control';
 // import AddVariablePopupWithPosition from './components/add-variable-popup-with-position';
 import cn from '@/utils/classnames';
 import BlockIcon from '../../icons/block-icon';
+import { Tag } from 'antd';
 
 type BaseNodeProps = {
   children: ReactNode;
@@ -134,7 +135,14 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
             title={data.title}
             className="system-sm-semibold-uppercase mr-1 flex grow items-center truncate text-text-primary"
           >
-            <div>{data.title}</div>
+            <div>
+              {data.detail?.station && (
+                <Tag className="text-xs" color="cyan">
+                  {data.detail.station}
+                </Tag>
+              )}
+              {data.title}
+            </div>
           </div>
           {data._iterationLength &&
             data._iterationIndex &&

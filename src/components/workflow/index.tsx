@@ -223,7 +223,9 @@ const Workflow: FC<WorkflowProps> = memo(
           nodesConnectable={!nodesReadOnly}
           nodesFocusable={!nodesReadOnly}
           edgesFocusable={!nodesReadOnly}
-          panOnDrag={controlMode === ControlMode.Hand && !workflowReadOnly}
+          panOnDrag={
+            controlMode === ControlMode.Hand && !workflowReadOnly ? [2] : false
+          }
           zoomOnPinch={!workflowReadOnly}
           zoomOnScroll={!workflowReadOnly}
           zoomOnDoubleClick={!workflowReadOnly}

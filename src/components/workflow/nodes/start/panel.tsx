@@ -34,7 +34,8 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({ id, data }) => {
 
   return (
     <div className="mt-2">
-      <div className="space-y-4 px-4 pb-2">
+      <div className="h-8 w-full text-center text-gray-500">开始流程节点</div>
+      {/* <div className="space-y-4 px-4 pb-2">
         <Field
           title="输入字段"
           operations={
@@ -56,74 +57,6 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({ id, data }) => {
 
             <div className="mt-1 space-y-1">
               <Split className="my-2" />
-
-              <VarItem
-                readonly
-                showLegacyBadge={!isChatMode}
-                payload={
-                  {
-                    variable: 'sys.files',
-                  } as any
-                }
-                rightContent={
-                  <div className="text-xs font-normal text-gray-500">
-                    Array[File]
-                  </div>
-                }
-              />
-
-              <VarItem
-                readonly
-                payload={
-                  {
-                    variable: 'sys.user_id',
-                  } as any
-                }
-                rightContent={
-                  <div className="text-xs font-normal text-gray-500">
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={
-                  {
-                    variable: 'sys.app_id',
-                  } as any
-                }
-                rightContent={
-                  <div className="text-xs font-normal text-gray-500">
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={
-                  {
-                    variable: 'sys.workflow_id',
-                  } as any
-                }
-                rightContent={
-                  <div className="text-xs font-normal text-gray-500">
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={
-                  {
-                    variable: 'sys.workflow_run_id',
-                  } as any
-                }
-                rightContent={
-                  <div className="text-xs font-normal text-gray-500">
-                    String
-                  </div>
-                }
-              />
             </div>
           </>
         </Field>
@@ -138,13 +71,7 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({ id, data }) => {
           onConfirm={handleAddVarConfirm}
           varKeys={inputs.variables.map((v) => v.variable)}
         />
-      )}
-
-      {/* <RemoveEffectVarConfirm
-        isShow={isShowRemoveVarConfirm}
-        onCancel={hideRemoveVarConfirm}
-        onConfirm={onRemoveVarConfirm}
-      /> */}
+      )} */}
     </div>
   );
 };

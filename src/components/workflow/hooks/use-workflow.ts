@@ -471,17 +471,7 @@ export const useWorkflowInit = () => {
                 data: {
                   type: 'start',
                   title: '开始',
-                  desc: '十大大苏打倒萨大大十大',
-                  variables: [
-                    {
-                      variable: 'name',
-                      label: 'name',
-                      type: 'text-input',
-                      max_length: 48,
-                      required: true,
-                      options: [],
-                    },
-                  ],
+                  variables: [],
                   selected: false,
                 },
                 position: {
@@ -503,7 +493,7 @@ export const useWorkflowInit = () => {
                 type: 'custom',
                 data: {
                   type: 'end',
-                  title: '结束 2',
+                  title: '结束',
                   desc: '',
                   outputs: [],
                   selected: false,

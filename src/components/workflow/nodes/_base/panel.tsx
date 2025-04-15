@@ -148,12 +148,12 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
               </div>
             </div>
           </div>
-          <div className="p-2">
+          {/* <div className="p-2">
             <DescriptionInput
               value={data.desc || ''}
               onChange={handleDescriptionChange}
             />
-          </div>
+          </div> */}
         </div>
         <div>{cloneElement(children, { id, data })}</div>
         {/* <Divider /> */}

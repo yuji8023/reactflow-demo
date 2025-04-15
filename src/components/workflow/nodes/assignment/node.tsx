@@ -10,7 +10,7 @@ const Node: FC<NodeProps<AssignmentNodeType>> = (props) => {
 
   return (
     <div className="px-3">
-      {detail.station && (
+      {/* {detail.station && (
         <div className="relative h-0 text-right text-xs">
           <Tag
             className="!-right-[2px] !-top-[20px] !-translate-y-1/2"
@@ -19,7 +19,7 @@ const Node: FC<NodeProps<AssignmentNodeType>> = (props) => {
             {detail.station}
           </Tag>
         </div>
-      )}
+      )} */}
       {/* <div className="mb-1 text-center text-base font-medium">
         {detail.title}
       </div> */}

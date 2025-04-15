@@ -12,7 +12,8 @@ const Node: FC<NodeProps<StartNodeType>> = ({ data }) => {
   if (!variables.length) return null;
 
   return (
-    <div className="mb-1 px-3 py-1">
+    <>
+      {/* <div className="mb-1 px-3 py-1">
       <div className="space-y-0.5">
         {variables.map((variable) => (
           <div
@@ -40,7 +41,8 @@ const Node: FC<NodeProps<StartNodeType>> = ({ data }) => {
           </div>
         ))}
       </div>
-    </div>
+    </div> */}
+    </>
   );
 };
 
