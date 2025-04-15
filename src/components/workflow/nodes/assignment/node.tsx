@@ -20,9 +20,9 @@ const Node: FC<NodeProps<AssignmentNodeType>> = (props) => {
           </Tag>
         </div>
       )}
-      <div className="mb-1 text-center text-base font-medium">
+      {/* <div className="mb-1 text-center text-base font-medium">
         {detail.title}
-      </div>
+      </div> */}
       <div className="mb-2 indent-6 text-xs text-gray-400">{detail.resume}</div>
       <div></div>
     </div>
