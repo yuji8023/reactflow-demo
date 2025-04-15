@@ -11,9 +11,9 @@ const nodeDefault: NodeDefault<AssignmentNodeType> = {
   defaultValue: {
     detail: {
       id: uuid4(),
-      title: '作业标题',
+      title: '标题',
       station: '岗位角色',
-      resume: '作业简述',
+      resume: '简述',
       bindBusinessScenario: {
         id: '',
         name: '',

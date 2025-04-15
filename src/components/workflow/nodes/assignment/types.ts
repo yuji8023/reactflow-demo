@@ -11,6 +11,7 @@ export type DetailType = {
   title: string; // 作业标题
   station: string; //岗位
   resume: string; // 简述
+  desc?: string;
   bindBusinessScenario: BusinessScenarioType;
 };
 

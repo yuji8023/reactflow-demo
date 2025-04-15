@@ -75,7 +75,7 @@ const Panel: FC<NodePanelProps<AssignmentNodeType>> = ({ id, data }) => {
             </div>
           </div>
         </Field> */}
-        <Field title="作业简述">
+        <Field title="简述">
           <div
             ref={ref}
             className="flex min-h-8 cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white pr-2.5 shadow-xs hover:shadow-md"
@@ -103,7 +103,35 @@ const Panel: FC<NodePanelProps<AssignmentNodeType>> = ({ id, data }) => {
             </div>
           </div>
         </Field>
-        <Field title="业务场景关联">
+        <Field title="描述">
+          <div
+            ref={ref}
+            className="flex min-h-8 cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white pr-2.5 shadow-xs hover:shadow-md"
+          >
+            <div className="flex w-0 grow items-center space-x-1">
+              <Input.TextArea
+                className="bg-components-input-bg-normal"
+                value={detail.desc}
+                onChange={(e) =>
+                  handleInfoListChange({
+                    ...detail,
+                    desc: e.target.value,
+                  })
+                }
+                bordered={false}
+                autoSize
+                allowClear
+              />
+            </div>
+            <div className="ml-2 flex shrink-0 items-center">
+              <InputVarTypeIcon
+                type={InputVarType.textInput}
+                className="h-3.5 w-3.5 text-gray-500"
+              />
+            </div>
+          </div>
+        </Field>
+        <Field title="用户场景关联">
           <div
             ref={ref}
             className="flex min-h-8 cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white shadow-xs hover:shadow-md"

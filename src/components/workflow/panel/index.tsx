@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { useNodes } from 'reactflow';
 import { useShallow } from 'zustand/react/shallow';
 import type { CommonNodeType } from '../types';
+import { BlockEnum } from '../types';
 import { Panel as NodePanel } from '../nodes';
 import { useStore } from '../store';
 
@@ -57,7 +58,9 @@ const Panel: FC = () => {
           />
         )
       } */}
-      {!!selectedNode && <NodePanel {...selectedNode!} />}
+      {!!selectedNode && selectedNode.data.type !== BlockEnum.End && (
+        <NodePanel {...selectedNode!} />
+      )}
       {/* {
         historyWorkflowData && !isChatMode && (
           <Record />

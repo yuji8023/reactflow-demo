@@ -183,11 +183,11 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
         {/* {hasErrorHandleNode(data.type) && (
           <ErrorHandleOnNode id={id} data={data} />
         )} */}
-        {data.desc && (
+        {/* {data.desc && (
           <div className="system-xs-regular whitespace-pre-line break-words px-3 pb-2 pt-1 text-text-tertiary">
             {data.desc}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
