@@ -17,7 +17,7 @@ export const BLOCKS: Block[] = [
   {
     classification: BlockClassificationEnum.Default,
     type: BlockEnum.Middle,
-    title: '过程',
+    title: '条件判断',
     description: '',
   },
   {

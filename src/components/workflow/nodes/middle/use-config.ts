@@ -46,6 +46,16 @@ const useConfig = (id: string, payload: MiddleNodeType) => {
     [id, inputs, setInputs],
   );
 
+  const handleConditionContentChange = useCallback(
+    (value: string) => {
+      const newInputs = produce(inputs, (draft: any) => {
+        draft.conditionContent = value;
+      });
+      setInputs(newInputs);
+    },
+    [inputs, setInputs],
+  );
+
   const handleAddInfo = useCallback(() => {
     const newInputs = produce(inputs, (draft: MiddleNodeType) => {
       if (draft.infos) {
@@ -79,6 +89,7 @@ const useConfig = (id: string, payload: MiddleNodeType) => {
     readOnly,
     inputs,
     handleInfoListChange,
+    handleConditionContentChange,
     handleAddInfo,
   };
 };

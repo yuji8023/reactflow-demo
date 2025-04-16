@@ -7,4 +7,5 @@ export type InfoItem = {
 
 export type MiddleNodeType = CommonNodeType & {
   infos: InfoItem[];
+  conditionContent: string;
 };

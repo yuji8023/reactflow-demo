@@ -48,7 +48,7 @@ export const NODES_INITIAL_DATA = {
   },
   [BlockEnum.Middle]: {
     type: BlockEnum.Middle,
-    title: '过程',
+    title: '条件判断',
     desc: '',
     ...MiddleNodeDefault.defaultValue,
   },
@@ -89,7 +89,7 @@ export const NODES_EXTRA_DATA: Record<BlockEnum, NodesExtraData> = {
   },
   [BlockEnum.Middle]: {
     author: 'yuji',
-    about: '定义一个 workflow 流程的中间过程类型',
+    about: '定义一个 workflow 流程的条件判断类型',
     availablePrevNodes: [],
     availableNextNodes: [],
     getAvailablePrevNodes: MiddleNodeDefault.getAvailablePrevNodes,
