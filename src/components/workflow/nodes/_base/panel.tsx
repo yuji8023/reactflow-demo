@@ -31,8 +31,13 @@ import {
 // import Tooltip from '@/app/components/base/tooltip';
 import { Divider, Tooltip } from 'antd';
 import type { Node } from '../../types';
+import { BlockEnum } from '../../types';
 // import { useStore as useAppStore } from '@/app/components/app/store';
 import { useStore } from '../../store';
+import {
+  NODE_BACKGROUND_COLORS,
+  NODE_DEFAULT_BACKGROUND_COLOR,
+} from '../constants';
 
 type BasePanelProps = {
   children: ReactElement;
@@ -45,6 +50,7 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
   //   })),
   // );
   // const showSingleRunPanel = useStore((s) => s.showSingleRunPanel);
+  const { bgColor = NODE_DEFAULT_BACKGROUND_COLOR } = data;
   const panelWidth = localStorage.getItem('workflow-node-panel-width')
     ? Number.parseFloat(localStorage.getItem('workflow-node-panel-width')!)
     : 420;
@@ -82,6 +88,17 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
     (title: string) => {
       handleNodeDataUpdateWithSyncDraft({ id, data: { title } });
       saveStateToHistory(WorkflowHistoryEvent.NodeTitleChange);
+    },
+    [handleNodeDataUpdateWithSyncDraft, id, saveStateToHistory],
+  );
+
+  const handleBgColorChange = useCallback(
+    (color: string) => {
+      handleNodeDataUpdateWithSyncDraft({
+        id,
+        data: { bgColor: color },
+      });
+      saveStateToHistory(WorkflowHistoryEvent.NodeBackgroundColorChange);
     },
     [handleNodeDataUpdateWithSyncDraft, id, saveStateToHistory],
   );
@@ -148,6 +165,26 @@ const BasePanel: FC<BasePanelProps> = ({ id, data, children }) => {
               </div>
             </div>
           </div>
+          {data.type === BlockEnum.AssignmentOffline ||
+            (data.type === BlockEnum.AssignmentOnline && (
+              <div className="p-2">
+                {/* 实现六个颜色选择按钮 */}
+                <div className="mb-1 flex items-center overscroll-x-auto px-4">
+                  {NODE_BACKGROUND_COLORS.map((color: string) => (
+                    <div
+                      key={color}
+                      onClick={() => handleBgColorChange(color)}
+                      className={cn(
+                        `mx-2 flex h-6 w-6 cursor-pointer items-center rounded-full border-[1px] border-[#ddd]`,
+                        `${color}`,
+                        'hover:scale-125 hover:border-red-300',
+                        bgColor === color && 'scale-125 border-red-300',
+                      )}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            ))}
           {/* <div className="p-2">
             <DescriptionInput
               value={data.desc || ''}

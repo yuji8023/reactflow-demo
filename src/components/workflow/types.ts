@@ -150,6 +150,7 @@ export type CommonNodeType<T = {}> = {
   retry_config?: WorkflowRetryConfig;
   default_value?: DefaultValueForm[];
   detail?: any;
+  bgColor?: string;
 } & T &
   Partial<
     Pick<

@@ -7,7 +7,7 @@ import {
   LoadingOutlined,
 } from '@ant-design/icons';
 import type { NodeProps } from '../../types';
-import { NodeRunningStatus } from '../../types';
+import { BlockEnum, NodeRunningStatus } from '../../types';
 import { useNodesReadOnly } from '../../hooks';
 // import { hasErrorHandleNode, hasRetryNode } from '../../utils';
 // import { useNodeIterationInteractions } from '../iteration/use-interactions';
@@ -19,6 +19,7 @@ import NodeControl from './components/node-control';
 import cn from '@/utils/classnames';
 import BlockIcon from '../../icons/block-icon';
 import { Tag } from 'antd';
+import { NODE_DEFAULT_BACKGROUND_COLOR } from '../constants';
 
 type BaseNodeProps = {
   children: ReactNode;
@@ -27,6 +28,7 @@ type BaseNodeProps = {
 const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const { nodesReadOnly } = useNodesReadOnly();
+  const { bgColor = NODE_DEFAULT_BACKGROUND_COLOR } = data;
   // const { handleNodeIterationChildSizeChange } = useNodeIterationInteractions();
   // const toolIcon = useToolIcon(data);
 
@@ -93,7 +95,11 @@ const BaseNode: FC<BaseNodeProps> = ({ id, data, children }) => {
         className={cn(
           'group relative pb-1 shadow-xs',
           'rounded-[15px] border border-transparent',
-          'w-[240px] bg-workflow-block-bg',
+          'w-[240px]',
+          data.type === BlockEnum.AssignmentOffline ||
+            data.type === BlockEnum.AssignmentOnline
+            ? `${bgColor}`
+            : 'bg-workflow-block-bg',
           !data._runningStatus && 'hover:shadow-lg',
           showRunningBorder && '!border-state-accent-solid',
           showSuccessBorder && '!border-state-success-solid',

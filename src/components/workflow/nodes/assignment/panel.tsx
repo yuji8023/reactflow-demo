@@ -4,13 +4,19 @@ import { useBoolean } from 'ahooks';
 import { Button, Input, Modal, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useHover } from 'ahooks';
-import { PlusOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  PlusSquareOutlined,
+  TagsOutlined,
+} from '@ant-design/icons';
 import InputVarTypeIcon from '../_base/components/input-var-type-icon';
 import { InputVarType } from '../../types';
 import type { AssignmentNodeType } from './types';
 import type { InputVar, NodePanelProps, MoreInfo } from '../../types';
 import useConfig from './use-config';
 import Field from '../_base/components/field';
+import TagList from './components/tag-list';
+import TagExist from './components/tag-exist';
 
 const Panel: FC<NodePanelProps<AssignmentNodeType>> = ({ id, data }) => {
   const ref = useRef(null);
@@ -131,6 +137,46 @@ const Panel: FC<NodePanelProps<AssignmentNodeType>> = ({ id, data }) => {
             </div>
           </div>
         </Field>
+        <Field title="业务场景标签">
+          <>
+            <div
+              ref={ref}
+              className="flex min-h-8 cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white shadow-xs hover:shadow-md"
+            >
+              <div className="flex  w-0 grow items-center space-x-1 bg-components-input-bg-normal">
+                <div className="px-[11px] py-[4px] leading-6">
+                  <TagList
+                    tagList={detail.businessTags}
+                    onChange={(value) =>
+                      handleInfoListChange({
+                        ...detail,
+                        businessTags: value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                title="新增标签"
+                className="flex h-full shrink-0 items-center py-2 pl-2 pr-2.5"
+              >
+                <TagsOutlined />
+              </div>
+            </div>
+            <div className="mt-2">
+              <TagExist
+                nodeId={id}
+                tagList={detail.businessTags}
+                onChange={(value) =>
+                  handleInfoListChange({
+                    ...detail,
+                    businessTags: value,
+                  })
+                }
+              />
+            </div>
+          </>
+        </Field>
         <Field title="用户场景关联">
           <div
             ref={ref}
@@ -145,6 +191,7 @@ const Panel: FC<NodePanelProps<AssignmentNodeType>> = ({ id, data }) => {
               />
             </div>
             <div
+              title="选择业务场景"
               onClick={showAddVarModal}
               className="flex h-full shrink-0 items-center py-2 pl-2 pr-2.5"
             >

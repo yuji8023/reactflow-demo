@@ -25,6 +25,7 @@ export enum WorkflowHistoryEvent {
   NoteChange = 'NoteChange',
   NoteDelete = 'NoteDelete',
   LayoutOrganize = 'LayoutOrganize',
+  NodeBackgroundColorChange = 'NodeBackgroundColorChange',
 }
 
 export const useWorkflowHistory = () => {
@@ -89,6 +90,7 @@ export const useWorkflowHistory = () => {
       case WorkflowHistoryEvent.NodeResize:
       case WorkflowHistoryEvent.NoteAdd:
       case WorkflowHistoryEvent.LayoutOrganize:
+      case WorkflowHistoryEvent.NodeBackgroundColorChange:
       case WorkflowHistoryEvent.NoteDelete:
         saveStateToHistoryRef.current(event);
         break;
@@ -130,6 +132,8 @@ export const useWorkflowHistory = () => {
         return '注释已更改';
       case WorkflowHistoryEvent.NoteDelete:
         return '注释已删除';
+      case WorkflowHistoryEvent.NodeBackgroundColorChange:
+        return '块背景色已更改';
       default:
         return '未知事件';
     }

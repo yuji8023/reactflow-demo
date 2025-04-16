@@ -42,3 +42,20 @@ export const SUB_VARIABLES = [
 export const OUTPUT_FILE_SUB_VARIABLES = SUB_VARIABLES.filter(
   (key) => key !== 'transfer_method',
 );
+
+// 导出tag的文本限制最大长度10
+export const TAG_TEXT_MAX_LENGTH = 10;
+
+// 作业节点背景色
+export const NODE_BACKGROUND_COLORS = [
+  'bg-workflow-block-bg',
+  'bg-util-colors-blue-blue-100',
+  'bg-util-colors-cyan-cyan-100',
+  'bg-util-colors-green-green-100',
+  'bg-util-colors-yellow-yellow-100',
+  'bg-util-colors-pink-pink-100',
+  'bg-util-colors-violet-violet-100',
+];
+
+// 作业节点默认背景色
+export const NODE_DEFAULT_BACKGROUND_COLOR = 'bg-workflow-block-bg';
