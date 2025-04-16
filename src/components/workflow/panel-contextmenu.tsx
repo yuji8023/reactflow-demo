@@ -104,7 +104,7 @@ const PanelContextmenu = () => {
           <ShortcutsName keys={['ctrl', 'v']} />
         </div>
       </div>
-      <Divider className="m-0" />
+      {/* <Divider className="m-0" />
       <div className="p-1">
         <div
           className="flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover"
@@ -121,7 +121,7 @@ const PanelContextmenu = () => {
         >
           导入 DSL
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
