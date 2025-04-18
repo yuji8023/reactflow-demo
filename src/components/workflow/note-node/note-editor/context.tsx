@@ -4,6 +4,7 @@ import { LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { createNoteEditorStore } from './store';
 import theme from './theme';
+import { useNodesReadOnly } from '../../hooks';
 
 type NoteEditorStore = ReturnType<typeof createNoteEditorStore>;
 const NoteEditorContext = createContext<NoteEditorStore | null>(null);
@@ -15,6 +16,7 @@ type NoteEditorContextProviderProps = {
 export const NoteEditorContextProvider = memo(
   ({ value, children }: NoteEditorContextProviderProps) => {
     const storeRef = useRef<NoteEditorStore | undefined>(undefined);
+    const { nodesReadOnly } = useNodesReadOnly();
 
     if (!storeRef.current) storeRef.current = createNoteEditorStore();
 
@@ -33,6 +35,7 @@ export const NoteEditorContextProvider = memo(
         throw error;
       },
       theme,
+      editable: !nodesReadOnly,
     };
 
     return (

@@ -7,6 +7,7 @@ import {
   // useDSL,
   useNodesInteractions,
   usePanelInteractions,
+  useNodesReadOnly,
   // useWorkflowStartRun,
 } from './hooks';
 import AddBlock from './operator/add-block';
@@ -19,6 +20,7 @@ const PanelContextmenu = () => {
   const clipboardElements = useStore((s) => s.clipboardElements);
   const setShowImportDSLModal = useStore((s) => s.setShowImportDSLModal);
   const { handleNodesPaste } = useNodesInteractions();
+  const { nodesReadOnly } = useNodesReadOnly();
   const { handlePaneContextmenuCancel, handleNodeContextmenuCancel } =
     usePanelInteractions();
   // const { handleStartWorkflowRun } = useWorkflowStartRun();
@@ -38,7 +40,12 @@ const PanelContextmenu = () => {
 
   const renderTrigger = () => {
     return (
-      <div className="flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover">
+      <div
+        className={cn(
+          'flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover',
+          nodesReadOnly ? 'cursor-not-allowed opacity-50' : '',
+        )}
+      >
         添加节点
       </div>
     );
@@ -64,9 +71,13 @@ const PanelContextmenu = () => {
           }}
         />
         <div
-          className="flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover"
+          className={cn(
+            'flex h-8 cursor-pointer items-center justify-between rounded-lg px-3 text-sm text-text-secondary hover:bg-state-base-hover',
+            nodesReadOnly ? 'cursor-not-allowed opacity-50' : '',
+          )}
           onClick={(e) => {
             e.stopPropagation();
+            if (nodesReadOnly) return;
             handleAddNote();
             handlePaneContextmenuCancel();
           }}

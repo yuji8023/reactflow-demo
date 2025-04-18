@@ -368,6 +368,7 @@ export const useNodesInteractions = () => {
 
   const handleNodeClick = useCallback<NodeMouseHandler>(
     (_, node) => {
+      if (getNodesReadOnly()) return;
       if (node.type === CUSTOM_ITERATION_START_NODE) return;
       if (node.type === CUSTOM_LOOP_START_NODE) return;
       handleNodeSelect(node.id);
